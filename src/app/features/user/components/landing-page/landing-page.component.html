@@ -1,0 +1,63 @@
+<div class="landing-page">
+
+  <app-header></app-header>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>EEZY CABS</h1>
+        <p>Your reliable taxi service at your fingertips</p>
+        <button class="book-now-btn" [routerLink]="['/user/book-cab']">Book Now</button>
+      </div>
+    </section>
+  
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-us">
+      <div class="content">
+        <img src="assets/img/landing-page/Porsche.png" alt="Taxi" class="taxi-image">
+        <div class="text">
+          <h2>Why Choose Us?</h2>
+          <p>We offer the best service with professional drivers, clean cars, and affordable rates.</p>
+        </div>
+      </div>
+      <div class="content">
+        <div class="text">
+          <h2>Safe and Reliable</h2>
+          <p>Your safety is our priority. Enjoy a comfortable ride with us.</p>
+        </div>
+        <img src="assets/img/landing-page/bmw.png" alt="Taxi" class="taxi-image">
+      </div>
+    </section>
+  
+    <!-- Contact & Feedback Section -->
+    <section class="contact-feedback">
+      <h2>Feedback</h2>
+      <div class="feedback-carousel">
+        <div class="feedback">
+          <img src="../assets/img/landing-page/user.png" alt="User  1" class="user-photo">
+          <div class="user-name">John Doe</div>
+          <p>"Great service! Highly recommend!"</p>
+        </div>
+        <div class="feedback">
+          <img src="../assets/img/landing-page/user.png" alt="User  2" class="user-photo">
+          <div class="user-name">Jane Smith</div>
+          <p>"Fast and reliable! Will use again!"</p>
+        </div>
+        <div class="feedback">
+          <img src="../assets/img/landing-page/user.png" alt="User  3" class="user-photo">
+          <div class="user-name">Mark Johnson</div>
+          <p>"I love EEZY CABS! Best in town!"</p>
+        </div>
+      </div>
+      <h2>Contact Us</h2>
+      <form class="contact-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="message">Feedback:</label>
+        <textarea id="message" name="message" required></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </section>
+    <app-footer></app-footer>
+  </div>

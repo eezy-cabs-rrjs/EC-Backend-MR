@@ -1,0 +1,109 @@
+.admin-header {
+  background-color: #007bff;
+  color: white;
+  padding: 15px 20px;
+  position: relative; /* Needed for absolute positioning of the nav menu */
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.nav-menu {
+  display: flex; /* Default to flex for larger screens */
+}
+
+.nav-menu ul {
+  list-style-type: none;
+  display: flex; /* Default to horizontal layout */
+  margin: 0;
+  padding: 0;
+}
+
+.nav-menu li {
+  margin: 0 15px;
+}
+
+.nav-menu a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+  text-decoration: underline;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.username {
+  margin-right: 15px;
+}
+
+.logout-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none; /* Hide the menu by default */
+    flex-direction: column; /* Stack items vertically */
+    position: absolute; /* Position it absolutely */
+    top: 60px; /* Adjust based on header height */
+    right: 0;
+    background-color: #007bff; /* Match header background */
+    width: 100%; /* Full width */
+    z-index: 1000; /* Ensure it appears above other content */
+    padding: 10px 0; /* Add padding for better spacing */
+  }
+
+  .nav-menu.active {
+    display: flex; /* Show the menu when active */
+  }
+
+  .nav-toggle {
+    display: flex; /* Show the hamburger icon */
+    flex-direction: column;
+    cursor: pointer;
+  }
+
+  .bar {
+    height: 3px;
+    width: 25px;
+    background-color: white;
+    margin: 3px 0;
+  }
+
+  .nav-menu li {
+    margin: 10px 0; /* Space out items vertically */
+    text-align: center; /* Center align text */
+    padding: 10px 20px; /* Add padding for clickable area */
+    transition: background-color 0.3s; /* Smooth background transition */
+  }
+
+  .nav-menu li:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Lighten background on hover */
+    border-radius: 5px; /* Rounded corners on hover */
+  }
+}

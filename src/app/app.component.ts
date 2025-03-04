@@ -1,13 +1,30 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
+import { LoadingComponent } from './shared/components/loading/loading.component';
+import { LoadingService } from './shared/components/loading/loading.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [
+    RouterOutlet,
+    LoadingComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'temp-angular-project';
+  constructor(
+    private router: Router,
+    private loadingService: LoadingService
+  ) {
+    router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.loadingService.show();
+      }
+      if (event instanceof NavigationEnd) {
+        this.loadingService.hide();
+      }
+    });
+  }
 }

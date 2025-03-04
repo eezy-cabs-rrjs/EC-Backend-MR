@@ -1,0 +1,59 @@
+header {
+    background-color: #333; /* Dark background for the navbar */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Padding around the navbar */
+}
+
+.navbar {
+    display: flex; /* Use Flexbox for layout */
+    justify-content: space-between; /* Space between items */
+    align-items: center; /* Center items vertically */
+}
+
+.logo h1 {
+    margin: 0; /* Remove default margin */
+}
+
+.nav-links {
+    list-style: none; /* Remove bullet points */
+    display: flex; /* Display links in a row */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+.nav-links li {
+    margin: 0 15px; /* Space between links */
+}
+
+.nav-links a {
+    color: white; /* Link color */
+    text-decoration: none; /* Remove underline */
+}
+
+.logout button {
+    background-color: #ff4d4d; /* Red background for logout */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    padding: 10px 15px; /* Padding for button */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.logout button:hover {
+    background-color: #ff1a1a; /* Darker red on hover */
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column; /* Stack items vertically */
+        align-items: flex-start; /* Align items to the start */
+    }
+
+    .nav-links {
+        flex-direction: column; /* Stack links vertically */
+        width: 100%; /* Full width for links */
+    }
+
+    .nav-links li {
+        margin: 5px 0; /* Space between links */
+    }
+}

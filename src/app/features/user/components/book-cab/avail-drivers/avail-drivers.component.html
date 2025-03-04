@@ -1,0 +1,17 @@
+<div class="modal-overlay" (click)="closeModal.emit()">
+     <div class="modal-content" (click)="$event.stopPropagation()">
+          <h3>Available Drivers</h3>
+          <div *ngIf="drivers.length > 0">
+               <ul>
+                    <li *ngFor="let driver of drivers" (click)="selectDriver(driver)">
+                         <img src="../../../../../../assets/img/profile/taxi driver.png" alt="{{ driver.name }}" class="driver-image" />
+                         {{ driver.name }} - {{ driver.vehicle }}
+                    </li>
+               </ul>
+          </div>
+          <div *ngIf="drivers.length === 0">
+               <p>No drivers available at the moment.</p>
+          </div>
+          <button (click)="closeModal.emit()">Close</button>
+     </div>
+</div>

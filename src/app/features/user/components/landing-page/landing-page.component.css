@@ -1,0 +1,140 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .landing-page {
+    display: flex;
+    flex-direction: column;
+  }
+    
+  .hero {
+    margin-top: 80px;
+    background-image: url('../../../../../assets/img/landing-page/hero.png');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero h1 {
+    font-size: 3.5rem; 
+    font-weight: 700; 
+    letter-spacing: 1px;
+    margin: 0; 
+}
+
+.hero p {
+    font-size: 1.5rem;
+    font-weight: 400; 
+    margin: 10px 0;
+}
+
+
+.book-now-btn {
+    padding: 10px 20px;
+    font-size: 1.25rem;
+    font-weight: 600; 
+    background-color: #007BFF;
+    color: white; 
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; 
+}
+
+.book-now-btn:hover {
+    background-color: #0056b3;
+}
+
+  
+  .why-choose-us {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px 20px;
+  }
+  
+  .taxi-image {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 10px;
+  }
+  
+  .contact-feedback {
+    padding: 40px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  
+  .feedback-carousel {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+  .feedback {
+    margin: 0 10px;
+    text-align: center;
+  }
+  
+  .user-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+  }
+  
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .contact-form label {
+    margin-top: 10px;
+  }
+  
+  .contact-form input,
+  .contact-form textarea {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .contact-form button {
+    margin-top: 20px;
+    background-color: #ffcc00;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }

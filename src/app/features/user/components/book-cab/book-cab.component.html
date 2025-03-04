@@ -1,0 +1,43 @@
+<app-header></app-header>
+<div class="map-container">
+  <iframe width="600" height="450" style="border: 0" loading="lazy" allowfullscreen
+    referrerpolicy="no-referrer-when-downgrade" [src]="mapUrl"></iframe>
+
+  <div class="form">
+    <h2>Book Your Ride</h2>
+    <form (ngSubmit)="bookRide()">
+      <div class="input-group">
+        <label for="departure">Departure</label>
+        <input type="text" id="departure" name="departure" [(ngModel)]="departure" placeholder="Enter pickup location"
+          required />
+      </div>
+
+      <div class="input-group">
+        <label for="destination">Destination</label>
+        <input type="text" id="destination" name="destination" [(ngModel)]="destination"
+          placeholder="Enter drop-off location" required />
+      </div>
+
+      <button type="button" (click)="updateMapUrl()" class="show-route">Show Route</button>
+
+      <div class="input-group">
+        <label for="riderName">Name</label>
+        <input type="text" id="riderName" name="riderName" [(ngModel)]="riderName" placeholder="Enter your full name"
+          required />
+      </div>
+
+      <div class="input-group">
+        <label for="contact">Contact Number</label>
+        <input type="tel" id="contact" name="contact" [(ngModel)]="contact" placeholder="Enter your mobile number"
+          required />
+      </div>
+
+      <button type="submit" class="main-submit">Book Now</button>
+    </form>
+  </div>
+<div *ngIf="showDriversModal">
+  <app-avail-drivers *ngIf="showDriversModal" [drivers]="availableDrivers" (driverSelected)="onDriverSelected($event)"
+    (closeModal)="closeModal()"></app-avail-drivers>
+</div>
+</div>
+<app-footer></app-footer>

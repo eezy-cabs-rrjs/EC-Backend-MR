@@ -1,0 +1,155 @@
+<button class="home-button" [routerLink]="['/user']">Home</button>
+<div class="full-page-background">
+  <div class="register-container">
+    <h2>EEZY CABS Registration</h2>
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="userType">Register as:</label>
+          <select 
+            id="userType" 
+            name="userType" 
+            [(ngModel)]="registerData.role" 
+            class="form-control" 
+            required
+            [disabled]="isOtpSent"
+          >
+            <option value="user">User</option>
+            <option value="driver">Driver</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="name">Full Name:</label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name"
+            autocomplete="off" 
+            required 
+            [(ngModel)]="registerData.name" 
+            class="form-control" 
+            [disabled]="isOtpSent"
+            #nameInput="ngModel"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            autocomplete="off"
+            required 
+            [(ngModel)]="registerData.email" 
+            class="form-control" 
+            [disabled]="isOtpSent"
+            #emailInput="ngModel"
+            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number:</label>
+          <input 
+            type="tel" 
+            id="phone" 
+            name="phone" 
+            autocomplete="off"
+            required 
+            [(ngModel)]="registerData.phone" 
+            class="form-control" 
+            [disabled]="isOtpSent"
+            #phoneInput="ngModel"
+            pattern="^[0-9]{10}$"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            autocomplete="off"
+            required 
+            [(ngModel)]="registerData.password" 
+            class="form-control" 
+            [disabled]="isOtpSent"
+            #passwordInput="ngModel"
+            minlength="6"
+          />
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password:</label>
+          <input 
+            type="password" 
+            id="confirm-password" 
+            name="confirmPassword" 
+            autocomplete="off"
+            required 
+            [(ngModel)]="registerData.confirmPassword" 
+            class="form-control" 
+            [disabled]="isOtpSent"
+            #confirmPasswordInput="ngModel"
+          />
+        </div>
+      </div>
+
+      <div class="otp-section">
+        <button type="button" class="btn btn-primary" (click)="sendOtp()">
+          Send OTP
+        </button>
+
+        <div class="form-group otp-field" *ngIf="isOtpSent">
+          <div class="otp-input-container">
+            <input 
+              type="text" 
+              id="otp" 
+              name="otp" 
+              [(ngModel)]="registerData.otp" 
+              class="form-control otp-input" 
+              [disabled]="!isOtpSent"
+              #otpInput="ngModel"
+              required
+              pattern="^[0-9]{6}$"
+              placeholder="Enter 6-digit OTP"
+            />
+            <span class="timer" *ngIf="otpTimer > 0">
+              {{ formattedOtpTimer }}
+            </span>
+          </div>
+
+          <div class="otp-actions">
+            <button 
+              type="button" 
+              class="btn btn-verify" 
+              (click)="verifyOtp()" 
+              *ngIf="otpTimer > 0"
+              [disabled]="otpInput.invalid"
+            >
+              Verify OTP
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="submit-section">
+        <button 
+          type="submit" 
+          class="btn btn-success" 
+          [disabled]="!isOtpVerified"
+        >
+          Create Account
+        </button>
+
+        <div class="login-link">
+          <p>Already have an account? <a [routerLink]="['/auth/login']">Login here</a></p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

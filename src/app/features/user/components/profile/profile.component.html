@@ -1,0 +1,109 @@
+<app-header></app-header>
+<!-- profile.component.html -->
+<div class="profile-container">
+     <!-- Loading State -->
+     <div *ngIf="loading" class="loading-state">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Loading profile...</p>
+     </div>
+
+     <!-- Error State -->
+     <div *ngIf="error" class="error-state">
+          <i class="fas fa-exclamation-circle"></i>
+          <p>{{ error }}</p>
+     </div>
+
+     <!-- Main Profile Card -->
+     <div *ngIf="!loading && !error" class="profile-card">
+          <div class="profile-content">
+               <!-- User Info with Profile Picture -->
+               <div class="user-info-section">
+                    <div class="profile-picture-container relative">
+                         <img [src]="user.profilePicture || '../../../../../assets/img/profile/user.png'"
+                              alt="Profile Picture" class="profile-image" (click)="togglePopup($event)">
+
+                         <!-- Updated Popup Menu -->
+                         <div *ngIf="showPopup" class="popup-menu">
+                              <button class="menu-item" (click)="viewPhoto()">
+                                   <i class="fas fa-eye"></i> View Photo
+                              </button>
+                              <button class="menu-item" (click)="uploadNewPhoto()">
+                                   <i class="fas fa-upload"></i> Upload New Photo
+                              </button>
+                              <button class="menu-item delete-option" (click)="deletePhoto()">
+                                   <i class="fas fa-trash"></i> Delete Photo
+                              </button>
+                         </div>
+
+                         <!-- Hidden file input -->
+                         <input type="file" #fileInput (change)="onFileChange($event)" accept="image/*" hidden>
+
+                         <!-- Image Viewer Modal -->
+                         <div *ngIf="showImageViewer" class="image-viewer-overlay" (click)="closeImageViewer($event)">
+                              <div class="image-viewer-content">
+                                   <button class="image-viewer-close" (click)="closeImageViewer($event)">
+                                        <i class="fas fa-times"></i>
+                                   </button>
+                                   <img [src]="user.profilePicture || '../../../../../assets/img/profile/user.png'"
+                                        alt="Profile Picture" class="viewed-image">
+                              </div>
+                         </div>
+                    </div>
+
+                    <div class="user-details">
+                         <h2 class="user-name">{{user.name}}</h2>
+                         <input *ngIf="isEditing" [(ngModel)]="user.name" class="edit-input" placeholder="Enter your name" />
+                         <p class="user-type">EEZY CABS Customer</p>
+                         <button class="edit-button" (click)="isEditing ? submitEdit() : editProfile()">
+                              <i class="fas fa-edit"></i>
+                              {{ isEditing ? 'Submit' : 'Edit Profile' }}
+                         </button>
+
+                    </div>
+               </div>
+
+               <!-- Stats Cards -->
+               <div class="stats-grid">
+                    <div class="stat-card">
+                         <div class="stat-header">
+                              <i class="fas fa-route"></i>
+                              <span>Total Trips</span>
+                         </div>
+                         <p class="stat-value">{{user.tripCount}}</p>
+                    </div>
+
+                    <div class="stat-card">
+                         <div class="stat-header">
+                              <i class="fas fa-calendar"></i>
+                              <span>Member Since</span>
+                         </div>
+                         <p class="stat-value">{{user.createdAt | date:'MMMM yyyy'}}</p>
+                    </div>
+               </div>
+
+               <!-- Contact Information -->
+               <div class="contact-section">
+                    <h3 class="section-title">Contact Information</h3>
+                    <div class="contact-grid">
+                         <div class="contact-card">
+                              <i class="fas fa-phone"></i>
+                              <div class="contact-details">
+                                   <p class="contact-label">Phone</p>
+                                   <input *ngIf="isEditing" [(ngModel)]="user.phone" class="edit-input" placeholder="Enter your phone" />
+                                   <p *ngIf="!isEditing" class="contact-value">{{ user.phone }}</p>
+                              </div>
+                         </div>
+
+                         <div class="contact-card">
+                              <i class="fas fa-envelope"></i>
+                              <div class="contact-details">
+                                   <p class="contact-label">Email</p>
+                                   <p class="contact-value">{{user.email}}</p>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+<app-footer></app-footer>

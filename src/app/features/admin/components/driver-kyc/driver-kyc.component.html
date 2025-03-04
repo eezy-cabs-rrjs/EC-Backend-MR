@@ -1,0 +1,72 @@
+<app-header></app-header>
+<div class="container">
+     <h2>KYC Details</h2>
+
+     <form #kycForm="ngForm">
+          <div class="form-group">
+               <label for="driverLicense">Driver License</label>
+               <input type="text" id="driverLicense" name="driverLicense" class="form-control"
+                    [(ngModel)]="driverDetails.driver_license" [readonly]="!isEditable" required>
+          </div>
+
+          <div class="form-group">
+               <label for="experience">Experience</label>
+               <input type="text" id="experience" name="experience" class="form-control"
+                    [(ngModel)]="driverDetails.experience" [readonly]="!isEditable" required>
+          </div>
+
+          <h3>Vehicle Details</h3>
+          <div class="form-group">
+               <label for="vehicleNo">Vehicle Number</label>
+               <input type="text" id="vehicleNumber" name="vehicleNumber" class="form-control"
+                    [(ngModel)]="vehicleDetails.vehicleNumber" [readonly]="!isEditable" required>
+          </div>
+
+          <div class="form-group">
+               <label for="chassisNo">Chassis Number</label>
+               <input type="text" id="chassisNumber" name="chassisNumber" class="form-control"
+                    [(ngModel)]="vehicleDetails.chassisNumber" [readonly]="!isEditable" required>
+          </div>
+
+          <div class="form-group">
+               <label for="insuranceNo">Insurance Number</label>
+               <input type="text" id="insuranceNumber" name="insuranceNumber" class="form-control"
+                    [(ngModel)]="vehicleDetails.insuranceNumber" [readonly]="!isEditable">
+          </div>
+
+          <div class="form-group">
+               <label for="insuranceExpiry">Insurance Expiry Date</label>
+               <input type="date" id="insuranceExpiry" name="insuranceExpiry" class="form-control"
+                    [(ngModel)]="vehicleDetails.insuranceExpiry" [readonly]="!isEditable">
+          </div>
+
+          <div class="form-group">
+               <label for="registrationDate">Registration Date</label>
+               <input type="date" id="registrationDate" name="registrationDate" class="form-control"
+                    [(ngModel)]="vehicleDetails.registrationDate" [readonly]="!isEditable">
+          </div>
+
+          <div class="form-group">
+               <label for="vehicleMake">Vehicle Make</label> 
+               <input type="text" id="vehicleMake" name="vehicleMake" class="form-control"
+                    [(ngModel)]=" vehicleDetails.vehicleMake" [readonly]="!isEditable">
+          </div>
+
+          <div class="form-group">
+               <label for="vehicleModel">Vehicle Model</label>
+               <input type="text" id="vehicleModel" name="vehicleModel" class="form-control"
+                    [(ngModel)]="vehicleDetails.vehicleModel" [readonly]="!isEditable">
+          </div>
+
+          <div class="form-group">
+               <label for="yearOfManufacture">Year of Manufacture</label>
+               <input type="number" id="yearOfManufacture" name="yearOfManufacture" class="form-control"
+                    [(ngModel)]="vehicleDetails.yearOfManufacture" [readonly]="!isEditable">
+          </div>
+
+          <div class="form-group">
+               <button type="button" class="btn-custom btn-approve" (click)="approveKYC()">Approve</button>
+               <button type="button" class="btn-custom btn-reject " (click)="rejectKYC()">Reject</button>
+          </div>
+     </form>
+</div>

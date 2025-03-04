@@ -1,0 +1,227 @@
+<app-header></app-header>
+<div class="rejection-banner" *ngIf="kycStatus === 'REJECTED'">
+     <div class="rejection-content">
+          <i class="fas fa-exclamation-circle"></i>
+          <div class="rejection-message">
+               <h4>KYC Verification Rejected</h4>
+               <p>Reason: {{rejectionReason}}</p>
+          </div>
+     </div>
+</div>
+
+<div class="page-container">
+     <div class="form-container">
+          <div class="form-header">
+               <h2 class="title" [ngClass]="{
+                'approved': kycStatus === 'APPROVED',
+                'rejected': kycStatus === 'REJECTED',
+                'pending': kycStatus === 'SUBMITTED',
+                'incomplete': kycStatus !== 'APPROVED' && kycStatus !== 'REJECTED' && kycStatus !== 'SUBMITTED'
+              }">
+                    {{
+                    kycStatus === 'APPROVED'
+                    ? 'KYC Verification Completed'
+                    : kycStatus === 'REJECTED'
+                    ? 'KYC Verification Rejected'
+                    : kycStatus === 'SUBMITTED'
+                    ? 'KYC Verification Pending'
+                    : 'KYC Verification Incomplete'
+                    }}
+               </h2>
+          </div>
+
+
+          <form (ngSubmit)="onSubmit()" #kycForm="ngForm" class="kyc-form">
+               <!-- Driver Details Section -->
+               <div class="form-section">
+                    <h3 class="section-title">Driver Details</h3>
+                    <div class="form-grid">
+                         <!-- Driver License -->
+                         <div class="form-group"
+                              [class.invalid]="driverLicense.invalid && (driverLicense.touched || submitted)">
+                              <label for="driverLicense">Driver License</label>
+                              <div class="validation-rules" *ngIf="isEditable && kycStatus !== 'SUBMITTED'">
+                                   <small>
+                                        • Must be 5-15 characters long
+                                        <br>
+                                        • Required field
+                                   </small>
+                              </div>
+                              <input type="text" id="driverLicense" name="driverLicense"
+                                   [(ngModel)]="driverDetails.driverLicense" #driverLicense="ngModel"
+                                   [readonly]="!isEditable" required minlength="5" maxlength="15"
+                                   class="form-control" />
+                              <div *ngIf="driverLicense.invalid && (driverLicense.touched || submitted) && isEditable"
+                                   class="validation-error">
+                                   <small *ngIf="driverLicense.errors?.['required']">Driver License is required</small>
+                                   <small *ngIf="driverLicense.errors?.['minlength']">Minimum 5 characters
+                                        required</small>
+                                   <small *ngIf="driverLicense.errors?.['maxlength']">Maximum 15 characters
+                                        allowed</small>
+                              </div>
+                         </div>
+
+                         <!-- Experience -->
+                         <div class="form-group"
+                              [class.invalid]="experience.invalid && (experience.touched || submitted)">
+                              <label for="experience">Experience</label>
+                              <div class="validation-rules" *ngIf="isEditable && kycStatus !== 'SUBMITTED'">
+                                   <small>
+                                        • Format: "X years" (e.g., "6 years")
+                                        <br>
+                                        • Required field
+                                   </small>
+                              </div>
+                              <input type="text" id="experience" name="experience"
+                                   [(ngModel)]="driverDetails.experience" #experience="ngModel" [readonly]="!isEditable"
+                                   required pattern="^[0-9]+\s*years?$" class="form-control"
+                                   placeholder="e.g., 6 years" />
+                              <div *ngIf="experience.invalid && (experience.touched || submitted) && isEditable"
+                                   class="validation-error">
+                                   <small *ngIf="experience.errors?.['required']">Experience is required</small>
+                                   <small *ngIf="experience.errors?.['pattern']">Format should be "X years"</small>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+
+               <!-- Vehicle Details Section -->
+               <div class="form-section">
+                    <h3 class="section-title">Vehicle Details</h3>
+                    <div class="form-grid">
+                         <!-- Vehicle Number -->
+                         <div class="form-group"
+                              [class.invalid]="vehicleNumber.invalid && (vehicleNumber.touched || submitted)">
+                              <label for="vehicleNumber">Vehicle Number</label>
+                              <input type="text" id="vehicleNumber" name="vehicleNumber"
+                                   [(ngModel)]="vehicleDetails.vehicleNumber" #vehicleNumber="ngModel"
+                                   [readonly]="!isEditable" required maxlength="10" pattern="[A-Z0-9]+"
+                                   class="form-control" />
+                              <div *ngIf="vehicleNumber.invalid && (vehicleNumber.touched || submitted) && isEditable"
+                                   class="validation-error">
+                                   <small *ngIf="vehicleNumber.errors?.['required']">Vehicle Number is required</small>
+                                   <small *ngIf="vehicleNumber.errors?.['maxlength']">Maximum 10 characters
+                                        allowed</small>
+                                   <small *ngIf="vehicleNumber.errors?.['pattern']">Only uppercase letters and numbers
+                                        allowed</small>
+                              </div>
+                         </div>
+
+                         <!-- Chassis Number -->
+                         <div class="form-group"
+                              [class.invalid]="chassisNumber.invalid && (chassisNumber.touched || submitted)">
+                              <label for="chassisNumber">Chassis Number</label>
+                              
+                              <input type="text" id="chassisNumber" name="chassisNumber"
+                                   [(ngModel)]="vehicleDetails.chassisNumber" #chassisNumber="ngModel"
+                                   [readonly]="!isEditable" required class="form-control" />
+                              <div *ngIf="chassisNumber.invalid && (chassisNumber.touched || submitted)"
+                                   class="validation-error">
+                                   <small *ngIf="chassisNumber.errors?.['required']">Chassis Number is required</small>
+                              </div>
+                         </div>
+
+                         <!-- Insurance Number -->
+                         <div class="form-group"
+                              [class.invalid]="insuranceNumber.invalid && (insuranceNumber.touched || submitted)">
+                              <label for="insuranceNumber">Insurance Number</label>
+                              
+                              <input type="text" id="insuranceNumber" name="insuranceNumber"
+                                   [(ngModel)]="vehicleDetails.insuranceNumber" #insuranceNumber="ngModel"
+                                   [readonly]="!isEditable" required class="form-control" />
+                              <div *ngIf="insuranceNumber.invalid && (insuranceNumber.touched || submitted)"
+                                   class="validation-error">
+                                   <small *ngIf="insuranceNumber.errors?.['required']">Insurance Number is
+                                        required</small>
+                              </div>
+                         </div>
+
+                         <!-- Insurance Expiry Date -->
+                         <div class="form-group"
+                              [class.invalid]="insuranceExpiry.invalid && (insuranceExpiry.touched || submitted)">
+                              <label for="insuranceExpiry">Insurance Expiry Date</label>
+                              
+                              <input type="date" id="insuranceExpiry" name="insuranceExpiry"
+                                   [(ngModel)]="vehicleDetails.insuranceExpiry" #insuranceExpiry="ngModel"
+                                   [readonly]="!isEditable" required class="form-control" />
+                              <div *ngIf="insuranceExpiry.invalid && (insuranceExpiry.touched || submitted)"
+                                   class="validation-error">
+                                   <small *ngIf="insuranceExpiry.errors?.['required']">Insurance Expiry Date is
+                                        required</small>
+                              </div>
+                         </div>
+
+                         <!-- Registration Date -->
+                         <div class="form-group"
+                              [class.invalid]="registrationDate.invalid && (registrationDate.touched || submitted)">
+                              <label for="registrationDate">Registration Date</label>
+                              
+                              <input type="date" id="registrationDate" name="registrationDate"
+                                   [(ngModel)]="vehicleDetails.registrationDate" #registrationDate="ngModel"
+                                   [readonly]="!isEditable" required class="form-control" />
+                              <div *ngIf="registrationDate.invalid && (registrationDate.touched || submitted)"
+                                   class="validation-error">
+                                   <small *ngIf="registrationDate.errors?.['required']">Registration Date is
+                                        required</small>
+                              </div>
+                         </div>
+
+                         <!-- Vehicle Make -->
+                         <div class="form-group"
+                              [class.invalid]="vehicleMake.invalid && (vehicleMake.touched || submitted)">
+                              <label for="vehicleMake">Vehicle Make</label>
+                              
+                              <input type="text" id="vehicleMake" name="vehicleMake"
+                                   [(ngModel)]="vehicleDetails.vehicleMake" #vehicleMake="ngModel"
+                                   [readonly]="!isEditable" required class="form-control" />
+                              <div *ngIf="vehicleMake.invalid && (vehicleMake.touched || submitted)"
+                                   class="validation-error">
+                                   <small *ngIf="vehicleMake.errors?.['required']">Vehicle Make is required</small>
+                              </div>
+                         </div>
+
+                         <!-- Vehicle Model -->
+                         <div class="form-group"
+                              [class.invalid]="vehicleModel.invalid && (vehicleModel.touched || submitted)">
+                              <label for="vehicleModel">Vehicle Model</label>
+                              
+                              <input type="text" id="vehicleModel" name="vehicleModel"
+                                   [(ngModel)]="vehicleDetails.vehicleModel" #vehicleModel="ngModel"
+                                   [readonly]="!isEditable" required class="form-control" />
+                              <div *ngIf="vehicleModel.invalid && (vehicleModel.touched || submitted)"
+                                   class="validation-error">
+                                   <small *ngIf="vehicleModel.errors?.['required']">Vehicle Model is required</small>
+                              </div>
+                         </div>
+
+                         <!-- Year of Manufacture -->
+                         <div class="form-group"
+                              [class.invalid]="yearOfManufacture.invalid && (yearOfManufacture.touched || submitted)">
+                              <label for="yearOfManufacture">Year of Manufacture</label>
+                              
+                              <input type="number" id="yearOfManufacture" name="yearOfManufacture"
+                                   [(ngModel)]="vehicleDetails.yearOfManufacture" #yearOfManufacture="ngModel"
+                                   [readonly]="!isEditable" required class="form-control" />
+                              <div *ngIf="yearOfManufacture.invalid && (yearOfManufacture.touched || submitted )"
+                                   class="validation-error">
+                                   <small *ngIf="yearOfManufacture.errors?.['required']">Year of Manufacture is
+                                        required</small>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+
+               <!-- Form Actions -->
+               <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" (click)="toggleEdit()"
+                         *ngIf="kycStatus !== 'INCOMPLETE'">
+                         {{ isEditable ? 'Cancel' : 'Edit' }}
+                    </button>
+                    <button type="submit" class="btn btn-primary"
+                         [disabled]="!isEditable || (!kycForm.form.valid && submitted)">
+                         {{ kycStatus === 'SUBMITTED' ? 'Update KYC' : 'Submit KYC' }}
+                    </button>
+               </div>
+          </form>
+     </div>
+</div>
