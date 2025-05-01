@@ -1,51 +1,72 @@
-<div class="page-container">
-  <div class="login-container">
-    <div class="header">
-      <button class="home-button" (click)="navigateHome()">Home</button>
-      <div class="role-toggle">
-        <select id="role" [(ngModel)]="loginData.role" class="form-select"
-          [ngClass]="{'is-invalid': submitted && !loginData.role}">
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-header">
+      <button class="home-btn" (click)="navigateHome()">
+        <i class="fas fa-home"></i>
+      </button>
+      <div class="role-selector">
+        <select id="role" [(ngModel)]="loginData.role" class="role-dropdown"
+          [ngClass]="{'invalid': submitted && !loginData.role}">
           <option value="user">User</option>
           <option value="driver">Driver</option>
-          <option value="admin">Admin</option>
+          <option *ngIf="showAdminRole" value="admin">Admin</option>
         </select>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
       </div>
     </div>
 
-    <h2 class="text-center mb-4">EEZY CABS Login</h2>
+    <div class="login-content">
+      <div class="logo-container">
+        <div class="logo-icon" (mousedown)="onLogoHold()" (mouseup)="cancelHold()">🚕</div>
+        <h1 class="login-title">EEZY CABS</h1>
+        <p class="login-subtitle">Sign in to your account</p>
+      </div>
 
-    <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="login-form" novalidate>
-      <div class="form-group mb-3">
-        <label for="email" class="form-label">Email:</label>
-        <input type="email" id="email" autocomplete="off" name="email" required email [(ngModel)]="loginData.email" #email="ngModel"
-          class="form-control"
-          [ngClass]="{'is-invalid': (email.invalid && email.touched) || (submitted && email.invalid)}"
-          autocomplete="email" />
-        <div class="invalid-feedback" *ngIf="(email.invalid && email.touched) || (submitted && email.invalid)">
-          <span *ngIf="email.errors?.['required']">Email is required</span>
-          <span *ngIf="email.errors?.['email']">Please enter a valid email</span>
+      <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="login-form">
+        <div class="form-group">
+          <div class="input-container">
+            <input type="email" id="email" name="email" required email [(ngModel)]="loginData.email" #email="ngModel"
+              class="form-input"
+              [ngClass]="{'invalid': (email.invalid && email.touched) || (submitted && email.invalid)}" placeholder=" "
+              autocomplete="email">
+            <label for="email" class="input-label">Email Address</label>
+            <i class="fas fa-envelope input-icon"></i>
+          </div>
+          <div class="error-message" *ngIf="(email.invalid && email.touched) || (submitted && email.invalid)">
+            <span *ngIf="email.errors?.['required']">Email is required</span>
+            <span *ngIf="email.errors?.['email']">Please enter a valid email</span>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group mb-3">
-        <label for="password" class="form-label">Password:</label>
-        <input type="password" autocomplete="off" id="password" name="password" required minlength="6" [(ngModel)]="loginData.password"
-          #password="ngModel" class="form-control"
-          [ngClass]="{'is-invalid': (password.invalid && password.touched) || (submitted && password.invalid)}"
-          autocomplete="current-password" />
-        <div class="invalid-feedback" *ngIf="(password.invalid && password.touched) || (submitted && password.invalid)">
-          <span *ngIf="password.errors?.['required']">Password is required</span>
-          <span *ngIf="password.errors?.['minlength']">Password must be at least 6 characters</span>
+        <div class="form-group">
+          <div class="input-container">
+            <input type="password" id="password" name="password" required minlength="6" [(ngModel)]="loginData.password"
+              #password="ngModel" class="form-input"
+              [ngClass]="{'invalid': (password.invalid && password.touched) || (submitted && password.invalid)}"
+              placeholder=" " autocomplete="current-password">
+            <label for="password" class="input-label">Password</label>
+            <i class="fas fa-lock input-icon"></i>
+            <button type="button" class="toggle-password" (click)="togglePasswordVisibility($event)">
+              <i class="fas" [ngClass]="passwordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+            </button>
+          </div>
+          <div class="error-message" *ngIf="(password.invalid && password.touched) || (submitted && password.invalid)">
+            <span *ngIf="password.errors?.['required']">Password is required</span>
+            <span *ngIf="password.errors?.['minlength']">Password must be at least 6 characters</span>
+          </div>
         </div>
-      </div>
 
-      <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="isLoading">
-        {{ isLoading ? 'Logging in...' : 'Login' }}
-      </button>
+        <button type="submit" class="login-btn" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Login</span>
+          <span *ngIf="isLoading" class="loading-spinner"></span>
+        </button>
 
-      <div class="text-center">
-        <p>Don't have an account? <a [routerLink]="['/auth/signup']" class="register-link">Register here</a></p>
-      </div>
-    </form>
+        <div class="login-footer">
+          <p class="register-text">Don't have an account? <a [routerLink]="['/auth/signup']" class="register-link">Sign
+              up</a></p>
+          <a href="#" class="forgot-password">Forgot password?</a>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

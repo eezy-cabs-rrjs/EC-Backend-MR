@@ -6,11 +6,12 @@ import { environment } from '../../../../../environments/env';
 import { Loader } from '@googlemaps/js-api-loader';
 import { BookingService } from '../../services/booking.service';
 import { UserService } from '../../services/user.service';
-import { FooterComponent } from '../partials/footer/footer.component';
-import { HeaderComponent } from '../partials/header/header.component';
 import { AvailDriversComponent } from './avail-drivers/avail-drivers.component';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { FooterComponent } from '@shared/components/partials/footer/footer.component';
+import { HeaderComponent } from '@shared/components/partials/header/header.component';
 
 @Component({
   selector: 'app-book-cab',
@@ -45,44 +46,48 @@ export class BookCabComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private bookingService: BookingService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.setDefaultMap();
   }
 
   ngOnInit(): void {
     if (typeof window !== 'undefined' && 'geolocation' in window.navigator) {
-      const userString = localStorage.getItem('user'); 
-      let user: { role?: string } | null = null; 
+      const userString = localStorage.getItem('user');
+      let user: { role?: string } | null = null;
 
       if (userString) {
         try {
-          user = JSON.parse(userString); 
+          user = JSON.parse(userString);
         } catch (error) {
           console.error('Error parsing user from localStorage:', error);
+          this.toastr.error('Error loading your profile data', 'Error');
         }
       }
 
-      if (user && user.role) { 
+      if (user && user.role) {
         this.bookingService.checkRide(user.role).subscribe({
           next: (response) => {
-            if (response && response.ongoing) { 
+            if (response && response.ongoing) {
               this.router.navigate(['/user/riding']);
+              this.toastr.info('You already have an ongoing ride', 'Ride in Progress');
             } else {
-              this.getCurrentLocation(); 
+              this.getCurrentLocation();
             }
           },
           error: (error) => {
             console.error('Error checking ride status:', error);
+            this.toastr.error('Error checking your ride status', 'Error');
             this.getCurrentLocation();
           }
         });
       } else {
-        console.error('User  role is not available');
+        console.error('User role is not available');
+        this.toastr.warning('Please login to access all features', 'Notice');
         this.getCurrentLocation();
       }
     }
-
   }
 
   private setDefaultMap(): void {
@@ -96,23 +101,24 @@ export class BookCabComponent implements OnInit {
         (position) => {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
-
           const mapUrl = `${this.gmapUrl}/v1/view?key=${this.apiKey}&center=${lat},${lng}&zoom=15`;
           this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(mapUrl);
         },
         (error) => {
           console.error('Error getting location', error);
+          this.toastr.warning('Could not get your current location. Using default map view.', 'Location Service');
           this.setDefaultMap();
         }
       );
     } else {
+      this.toastr.warning('Geolocation is not supported by your browser', 'Location Service');
       this.setDefaultMap();
     }
   }
 
   updateMapUrl(): void {
     if (!this.departure || !this.destination) {
-      alert('Please enter both Departure and Destination');
+      this.toastr.error('Please enter both Departure and Destination to show route', 'Missing Information');
       return;
     }
 
@@ -122,6 +128,7 @@ export class BookCabComponent implements OnInit {
       + '&mode=driving';
 
     this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(mapUrl);
+    this.toastr.success('Route displayed on map', 'Success');
   }
 
   async fetchCoordinates(address: string): Promise<{ lat: number; lng: number }> {
@@ -147,7 +154,7 @@ export class BookCabComponent implements OnInit {
 
   async bookRide(): Promise<void> {
     if (!this.departure || !this.destination || !this.riderName || !this.contact) {
-      alert('Please fill in all fields before booking the ride.');
+      this.toastr.error('Please fill in all fields before booking the ride.', 'Form Incomplete');
       return;
     }
 
@@ -158,10 +165,15 @@ export class BookCabComponent implements OnInit {
       this.bookingService.getAvailableDrivers(departureCoords).subscribe({
         next: (drivers) => {
           this.availableDrivers = drivers;
-          console.log('Available Drivers:', this.availableDrivers);
+          if (drivers.length > 0) {
+            this.toastr.info(`${drivers.length} drivers available near you`, 'Drivers Found');
+          } else {
+            this.toastr.warning('No drivers available at the moment. Please try again later.', 'No Drivers');
+          }
         },
         error: (error) => {
           console.error('Error fetching available drivers:', error);
+          this.toastr.error('Error finding available drivers. Please try again.', 'Error');
           this.availableDrivers = [];
         },
         complete: () => {
@@ -169,21 +181,20 @@ export class BookCabComponent implements OnInit {
         }
       });
       this.showDriversModal = true;
-
-      console.log('Available Drivers:', this.availableDrivers);
     } catch (error) {
-      alert('Failed to book ride. Please try again.');
+      this.toastr.error('Failed to book ride. Please check your locations and try again.', 'Booking Error');
       console.error(error);
     }
   }
 
   onDriverSelected(driver: any) {
     this.selectedDriver = driver;
-    alert(`You have selected ${driver.name}.`);
-    this.showDriversModal = false; // Close the modal after selection
+    this.toastr.success(`You have selected ${driver.name}. Your ride is being prepared!`, 'Driver Selected');
+    this.showDriversModal = false;
   }
 
   closeModal() {
-    this.showDriversModal = false; // Close the modal
+    this.showDriversModal = false;
+    this.toastr.info('You can modify your booking details if needed', 'Booking Open');
   }
 }

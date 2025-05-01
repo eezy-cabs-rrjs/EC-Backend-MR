@@ -1,17 +1,45 @@
-<div class="modal-overlay" (click)="closeModal.emit()">
-     <div class="modal-content" (click)="$event.stopPropagation()">
-          <h3>Available Drivers</h3>
-          <div *ngIf="drivers.length > 0">
-               <ul>
-                    <li *ngFor="let driver of drivers" (click)="selectDriver(driver)">
-                         <img src="../../../../../../assets/img/profile/taxi driver.png" alt="{{ driver.name }}" class="driver-image" />
-                         {{ driver.name }} - {{ driver.vehicle }}
-                    </li>
-               </ul>
+<div class="drivers-modal-overlay" (click)="closeModal.emit()">
+     <div class="drivers-modal-content" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+               <h3><i class="fas fa-users"></i> Available Drivers</h3>
+               <button class="close-btn" (click)="closeModal.emit()">
+                    <i class="fas fa-times"></i>
+               </button>
           </div>
-          <div *ngIf="drivers.length === 0">
-               <p>No drivers available at the moment.</p>
+
+          <div class="drivers-list">
+               <div *ngIf="drivers.length > 0; else noDrivers">
+                    <div class="driver-card" *ngFor="let driver of drivers" (click)="selectDriver(driver)">
+                         <div class="driver-avatar">
+                              <img src="../../../../../../assets/img/profile/taxi driver.png" alt="{{ driver.name }}" />
+                         </div>
+                         <div class="driver-info">
+                              <h4>{{ driver.name }}</h4>
+                              <p class="vehicle-info">
+                                   <i class="fas fa-car"></i> {{ driver.vehicle }}
+                              </p>
+                              <div class="driver-rating">
+                                   <i class="fas fa-star"></i>
+                                   <i class="fas fa-star"></i>
+                                   <i class="fas fa-star"></i>
+                                   <i class="fas fa-star"></i>
+                                   <i class="fas fa-star-half-alt"></i>
+                                   <span>4.7</span>
+                              </div>
+                         </div>
+                         <div class="select-indicator">
+                              <i class="fas fa-chevron-right"></i>
+                         </div>
+                    </div>
+               </div>
+
+               <ng-template #noDrivers>
+                    <div class="no-drivers">
+                         <i class="fas fa-taxi"></i>
+                         <p>No drivers available at the moment</p>
+                         <p class="small">Please try again in a few minutes</p>
+                    </div>
+               </ng-template>
           </div>
-          <button (click)="closeModal.emit()">Close</button>
      </div>
 </div>

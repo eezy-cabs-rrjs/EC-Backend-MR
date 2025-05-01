@@ -7,6 +7,7 @@ export const routes: Routes = [
      { path: 'admin', loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule) },
      { path: 'driver', loadChildren: () => import('./features/driver/driver.module').then(m => m.DriverModule) },
      { path: 'auth', loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule) },
+     { path: 'rides', loadChildren: () => import('./features/rides/rides.module'). then(m => m.RidesModule) },
      { path:'**', redirectTo:'user', pathMatch: 'full' }
 ];
    

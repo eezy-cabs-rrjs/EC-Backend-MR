@@ -40,3 +40,28 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html {
+  box-sizing: border-box;
+  overflow-x: hidden; /* Prevent horizontal scrolling on entire page */
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+* {
+  max-width: 100%;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Extra protection against horizontal scroll */
+  position: relative; /* Helps contain fixed elements */
+}
+
+iframe {
+  max-width: 100%;
+}

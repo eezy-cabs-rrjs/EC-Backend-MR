@@ -1,63 +1,244 @@
+<!-- Landing Page Component -->
 <div class="landing-page">
-
   <app-header></app-header>
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>EEZY CABS</h1>
-        <p>Your reliable taxi service at your fingertips</p>
-        <button class="book-now-btn" [routerLink]="['/user/book-cab']">Book Now</button>
-      </div>
-    </section>
   
-    <!-- Why Choose Us Section -->
-    <section class="why-choose-us">
-      <div class="content">
-        <img src="assets/img/landing-page/Porsche.png" alt="Taxi" class="taxi-image">
-        <div class="text">
-          <h2>Why Choose Us?</h2>
-          <p>We offer the best service with professional drivers, clean cars, and affordable rates.</p>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content container">
+      <div class="hero-text">
+        <h1>Ride with <span>EEZY CABS</span></h1>
+        <p class="subtitle">Your reliable, safe, and comfortable ride in the city</p>
+        <div class="hero-buttons">
+          <button class="primary-btn" [routerLink]="['/user/book-cab']">
+            <i class="fas fa-taxi"></i> Book Now
+          </button>
+          <button class="secondary-btn" [routerLink]="['/auth/signup']">
+            <i class="fas fa-user-plus"></i> Sign Up
+          </button>
         </div>
       </div>
-      <div class="content">
-        <div class="text">
-          <h2>Safe and Reliable</h2>
-          <p>Your safety is our priority. Enjoy a comfortable ride with us.</p>
-        </div>
-        <img src="assets/img/landing-page/bmw.png" alt="Taxi" class="taxi-image">
+      <div class="hero-image">
+        <img src="../assets/img/landing-page/hero.png" alt="Taxi Car">
       </div>
-    </section>
+    </div>
+  </section>
   
-    <!-- Contact & Feedback Section -->
-    <section class="contact-feedback">
-      <h2>Feedback</h2>
-      <div class="feedback-carousel">
-        <div class="feedback">
-          <img src="../assets/img/landing-page/user.png" alt="User  1" class="user-photo">
-          <div class="user-name">John Doe</div>
-          <p>"Great service! Highly recommend!"</p>
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <h2 class="section-title">Why Choose EEZY CABS?</h2>
+      <p class="section-subtitle">We make your ride comfortable and hassle-free</p>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3>Quick Pickup</h3>
+          <p>Average wait time of just 3 minutes in most areas</p>
         </div>
-        <div class="feedback">
-          <img src="../assets/img/landing-page/user.png" alt="User  2" class="user-photo">
-          <div class="user-name">Jane Smith</div>
-          <p>"Fast and reliable! Will use again!"</p>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>Safe Rides</h3>
+          <p>Verified drivers and 24/7 ride monitoring</p>
         </div>
-        <div class="feedback">
-          <img src="../assets/img/landing-page/user.png" alt="User  3" class="user-photo">
-          <div class="user-name">Mark Johnson</div>
-          <p>"I love EEZY CABS! Best in town!"</p>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-money-bill-wave"></i>
+          </div>
+          <h3>Affordable Rates</h3>
+          <p>Competitive pricing with no surge charges</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-car"></i>
+          </div>
+          <h3>Clean Vehicles</h3>
+          <p>Regularly sanitized and well-maintained cars</p>
         </div>
       </div>
-      <h2>Contact Us</h2>
-      <form class="contact-form">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <label for="message">Feedback:</label>
-        <textarea id="message" name="message" required></textarea>
-        <button type="submit">Send</button>
-      </form>
-    </section>
-    <app-footer></app-footer>
-  </div>
+    </div>
+  </section>
+  
+  <!-- How It Works Section -->
+  <section class="how-it-works">
+    <div class="container">
+      <h2 class="section-title">How EEZY CABS Works</h2>
+      <p class="section-subtitle">Get your ride in just a few taps</p>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Book Your Ride</h3>
+            <p>Enter your pickup and drop-off locations</p>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Choose Your Vehicle</h3>
+            <p>Select from our range of comfortable options</p>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Track Your Driver</h3>
+            <p>See your driver approaching in real-time</p>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Enjoy Your Ride</h3>
+            <p>Sit back and relax as we take you to your destination</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <div class="container">
+      <h2 class="section-title">What Our Customers Say</h2>
+      <p class="section-subtitle">Thousands of happy riders across the city</p>
+      
+      <div class="testimonial-slider">
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p class="testimonial-text">"EEZY CABS is my go-to ride service. The drivers are always professional and the cars are spotless!"</p>
+          <div class="testimonial-author">
+            <img src="../assets/img/landing-page/user.png" alt="Sarah J." class="author-avatar">
+            <div class="author-info">
+              <h4>Sarah J.</h4>
+              <p>Regular Rider</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+          </div>
+          <p class="testimonial-text">"I use EEZY CABS for my daily commute. Reliable, affordable, and always on time."</p>
+          <div class="testimonial-author">
+            <img src="../assets/img/landing-page/user.png" alt="Michael T." class="author-avatar">
+            <div class="author-info">
+              <h4>Michael T.</h4>
+              <p>Business Commuter</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p class="testimonial-text">"The app is so easy to use, and I love being able to track my driver. Five stars!"</p>
+          <div class="testimonial-author">
+            <img src="../assets/img/landing-page/user.png" alt="Lisa K." class="author-avatar">
+            <div class="author-info">
+              <h4>Lisa K.</h4>
+              <p>Frequent Traveler</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- App Download Section -->
+  <section class="app-download">
+    <div class="container">
+      <div class="app-content">
+        <div class="app-text">
+          <h2>Download the EEZY CABS App</h2>
+          <p>Get the best experience with our mobile app. Book rides faster, get exclusive offers, and more.</p>
+          <div class="download-buttons">
+            <button class="app-store-btn">
+              <i class="fab fa-apple"></i> App Store
+            </button>
+            <button class="play-store-btn">
+              <i class="fab fa-google-play"></i> Google Play
+            </button>
+          </div>
+        </div>
+        <div class="app-image">
+          <img src="../assets/img/landing-page/TAXI SERVICE.jpg" alt="EEZY CABS App Screens">
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Contact Section -->
+  <section class="contact">
+    <div class="container">
+      <div class="contact-content">
+        <div class="contact-info">
+          <h2>Contact Us</h2>
+          <p>Have questions or feedback? We'd love to hear from you.</p>
+          
+          <div class="contact-methods">
+            <div class="contact-method">
+              <i class="fas fa-phone-alt"></i>
+              <p>+1 (555) 123-4567</p>
+            </div>
+            <div class="contact-method">
+              <i class="fas fa-envelope"></i>
+              <p [innerText]="'support@eezycabs.com'"></p>
+            </div>
+            <div class="contact-method">
+              <i class="fas fa-map-marker-alt"></i>
+              <p>123 Ride Street, Cityville</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="contact-form">
+          <form>
+            <div class="form-group">
+              <input type="text" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+              <input type="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Subject">
+            </div>
+            <div class="form-group">
+              <textarea placeholder="Your Message" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <app-footer></app-footer>
+</div>

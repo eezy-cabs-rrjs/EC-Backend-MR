@@ -135,7 +135,7 @@ export class SignupComponent {
 
   startTimer() {
     if (this.intervalId) {
-      clearInterval(this.intervalId); // Clear existing timer to prevent multiple timers
+      clearInterval(this.intervalId);
     }
 
     this.intervalId = setInterval(() => {
@@ -144,7 +144,7 @@ export class SignupComponent {
       if (this.otpTimer <= 0) {
         clearInterval(this.intervalId);
         this.toastr.info('OTP has expired. Please request a new OTP.', 'Info');
-        this.isOtpSent = false; // Reset OTP sent state
+        this.isOtpSent = false;
       }
     }, 1000);
   }

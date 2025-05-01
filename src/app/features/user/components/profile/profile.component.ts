@@ -1,12 +1,12 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, ElementRef, HostListener, Inject, PLATFORM_ID, ViewChild } from '@angular/core';
 import { User } from '../interfaces';
-import { HeaderComponent } from '../partials/header/header.component';
-import { FooterComponent } from '../partials/footer/footer.component';
-import { UserService } from '../../services/user.service';
+import { UserService } from '@features/user/services/user.service';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterModule } from '@angular/router';
+import { FooterComponent } from '@shared/components/partials/footer/footer.component';
+import { HeaderComponent } from '@shared/components/partials/header/header.component';
 
 @Component({
   selector: 'app-profile',

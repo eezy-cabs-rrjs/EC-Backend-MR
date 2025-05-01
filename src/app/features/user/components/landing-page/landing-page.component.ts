@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { FooterComponent } from '../partials/footer/footer.component';
-import { HeaderComponent } from '../partials/header/header.component';
 import { RouterModule } from '@angular/router';
+import { FooterComponent } from '@shared/components/partials/footer/footer.component';
+import { HeaderComponent } from '@shared/components/partials/header/header.component';
 
 @Component({
   selector: 'app-landing-page',

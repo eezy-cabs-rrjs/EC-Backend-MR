@@ -1,0 +1,25 @@
+<app-header></app-header>
+<div class="chat-container">
+     <div class="chat-header">
+          <h2>Chat with {{ userType === 'user' ? 'Driver' : 'User' }}</h2>
+          <p>Ride ID: {{ rideId }}</p>
+     </div>
+
+     <div class="messages-container">
+          <div *ngFor="let message of messages" [class.current-user]="message.isCurrentUser"
+               [class.other-user]="!message.isCurrentUser" class="message">
+               <div class="message-content">
+                    <p>{{ message.message }}</p>
+                    <span class="timestamp">{{ message.timestamp | date:'shortTime' }}</span>
+               </div>
+          </div>
+     </div>
+
+     <div class="message-input">
+          <input type="text" [(ngModel)]="newMessage" placeholder="Type your message..." (keyup.enter)="sendMessage()">
+          <button (click)="sendMessage()">
+               <i class="fas fa-paper-plane"></i>
+          </button>
+     </div>
+</div>
+<app-footer></app-footer>

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../../../../auth/services/auth.service';
+import { AuthService } from '@features/auth/services/auth.service';
 
 @Component({
   selector: 'app-header',

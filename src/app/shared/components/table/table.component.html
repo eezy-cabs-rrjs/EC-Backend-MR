@@ -1,0 +1,57 @@
+<div class="table-container">
+  <div class="table-responsive">
+    <table class="table" aria-describedby="tableDescription">
+      <caption id="tableDescription" class="sr-only">Data table with sortable columns</caption>
+      <thead>
+        <tr>
+          <th *ngFor="let column of columns" [class.sortable]="column.sortable"
+            [attr.aria-sort]="column.sortable ? (column.direction || 'none') : null"
+            (click)="column.sortable ? onSort(column.key) : null" [title]="column.sortable ? 'Click to sort' : ''">
+            <div class="header-content">
+              {{ column.header }}
+              <span *ngIf="column.sortable" class="sort-icon" aria-hidden="true">
+                {{ column.direction === 'asc' ? '↑' : column.direction === 'desc' ? '↓' : '↕' }}
+              </span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="loading">
+          <td [attr.colspan]="columns.length" class="text-center loading-row">
+            <div class="loading-spinner"></div>
+            Loading data...
+          </td>
+        </tr>
+        <tr *ngFor="let item of data; trackBy: trackByFn" (click)="onRowClick(item)"
+          [attr.aria-label]="'Row ' + (data.indexOf(item) + 1)">
+          <td *ngFor="let column of columns" [attr.data-label]="column.header">
+            <ng-container *ngIf="!column.cellTemplate; else customCell">
+              {{ item[column.key] }}
+            </ng-container>
+            <ng-template #customCell>
+              <ng-container *ngIf="column.cellTemplate">
+                <ng-container *ngTemplateOutlet="column.cellTemplate; context: { $implicit: item }"></ng-container>
+              </ng-container>
+            </ng-template>
+          </td>
+        </tr>
+        <tr *ngIf="!loading && data.length === 0">
+          <td [attr.colspan]="columns.length" class="text-center no-data">
+            <i class="fas fa-database"></i> No data available
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination" *ngIf="totalPages > 1" aria-label="Pagination">
+    <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1" aria-label="Previous page">
+      <i class="fas fa-chevron-left"></i> Previous
+    </button>
+    <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages" aria-label="Next page">
+      Next <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+</div>

@@ -31,7 +31,7 @@ importers:
         version: 17.3.5(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
       '@angular/material':
         specifier: 17.3.10
-        version: 17.3.10(fziyzy25gol2o7xzraihs72xsu)
+        version: 17.3.10(c3dcdbb03e8441fd1677ed83c13fe4b4)
       '@angular/platform-browser':
         specifier: ^17.3.0
         version: 17.3.12(@angular/animations@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))
@@ -62,6 +62,9 @@ importers:
       ngx-ldrs:
         specifier: ^17.1.0
         version: 17.1.0
+      ngx-socket-io:
+        specifier: 4.6.1
+        version: 4.6.1(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
       ngx-toastr:
         specifier: ^19.0.0
         version: 19.0.0(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(@angular/platform-browser@17.3.12(@angular/animations@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))
@@ -2043,6 +2046,9 @@ packages:
   core-js-compat@3.39.0:
     resolution: {integrity: sha512-VgEUx3VwlExr5no0tXlBt+silBvhTryPwCXRI2Id1PN8WTKu7MreethvddqOubrYxkFdv/RnYrqlv1sFNAUelw==}
 
+  core-js@3.42.0:
+    resolution: {integrity: sha512-Sz4PP4ZA+Rq4II21qkNqOEDTDrCvcANId3xpIgB34NDkWc3UduWj2dqEtN9yZIq8Dk3HyPI33x9sqqU5C8sr0g==}
+
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
@@ -3108,6 +3114,13 @@ packages:
   ngx-ldrs@17.1.0:
     resolution: {integrity: sha512-ZeNT0ZU8eVbtr5+UYTES4fInJHY4ieDf4HjPiSgKl3Iz+e/Usz2OZD7wITohOe/RD3KIFTbEfoXIbiafKHljnQ==}
 
+  ngx-socket-io@4.6.1:
+    resolution: {integrity: sha512-R8Ja/f9Kj+SOLk8WH+uwKrpaoTwiW5/DXmSpBKfzy7SzfoUUxQSCzVGJ4PZ20UfqsT1KKhF3kqqsxWdkPWliLQ==}
+    peerDependencies:
+      '@angular/common': ^17.0.0
+      '@angular/core': ^17.0.0
+      rxjs: ^7.0.0
+
   ngx-toastr@19.0.0:
     resolution: {integrity: sha512-6pTnktwwWD+kx342wuMOWB4+bkyX9221pAgGz3SHOJH0/MI9erLucS8PeeJDFwbUYyh75nQ6AzVtolgHxi52dQ==}
     peerDependencies:
@@ -3474,6 +3487,9 @@ packages:
   readdirp@3.6.0:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
     engines: {node: '>=8.10.0'}
+
+  reflect-metadata@0.1.14:
+    resolution: {integrity: sha512-ZhYeb6nRaXCfhnndflDK8qI6ZQ/YcWZCISRAWICW9XYqMUwjZM9Z0DveWX/ABN01oxSHwVxKQmxeYZSsm0jh5A==}
 
   reflect-metadata@0.2.2:
     resolution: {integrity: sha512-urBwgfrvVP/eAyXx4hluJivBKzuEbSQs9rKWCrCkbSxNv8mxPcUZKeuoF3Uy4mJl3Lwprp6yy5/39VWigZ4K6Q==}
@@ -4426,7 +4442,7 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.8.1
 
-  '@angular/material@17.3.10(fziyzy25gol2o7xzraihs72xsu)':
+  '@angular/material@17.3.10(c3dcdbb03e8441fd1677ed83c13fe4b4)':
     dependencies:
       '@angular/animations': 17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))
       '@angular/cdk': 17.3.10(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
@@ -6844,6 +6860,8 @@ snapshots:
     dependencies:
       browserslist: 4.24.2
 
+  core-js@3.42.0: {}
+
   core-util-is@1.0.3: {}
 
   cors@2.8.5:
@@ -8001,6 +8019,22 @@ snapshots:
       tslib: 2.8.1
       zone.js: 0.14.10
 
+  ngx-socket-io@4.6.1(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1):
+    dependencies:
+      '@angular/common': 17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
+      '@angular/core': 17.3.12(rxjs@7.8.1)(zone.js@0.14.10)
+      core-js: 3.42.0
+      reflect-metadata: 0.1.14
+      rxjs: 7.8.1
+      socket.io: 4.8.1
+      socket.io-client: 4.8.1
+      tslib: 2.8.1
+      zone.js: 0.14.10
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+
   ngx-toastr@19.0.0(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(@angular/platform-browser@17.3.12(@angular/animations@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))):
     dependencies:
       '@angular/common': 17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
@@ -8388,6 +8422,8 @@ snapshots:
   readdirp@3.6.0:
     dependencies:
       picomatch: 2.3.1
+
+  reflect-metadata@0.1.14: {}
 
   reflect-metadata@0.2.2: {}
 

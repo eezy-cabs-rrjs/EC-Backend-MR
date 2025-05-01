@@ -23,8 +23,12 @@ export class LoginComponent {
     role: 'user'
   };
 
-  submitted = false;
-  isLoading = false;
+  submitted : boolean = false;
+  isLoading : boolean = false;
+  passwordVisible: boolean = false;
+  showAdminRole  :boolean = false;
+
+  private holdTimeout: any;
 
   constructor(
     private router: Router,
@@ -34,6 +38,18 @@ export class LoginComponent {
 
   navigateHome() {
     this.router.navigate(['/user']);
+  }
+
+  onLogoHold() {
+    this.holdTimeout = setTimeout(() => this.revealAdminRole(), 1500);
+  }
+
+  cancelHold() {
+    clearTimeout(this.holdTimeout);
+  }
+
+  revealAdminRole() {
+    this.showAdminRole = true;
   }
 
   onLogin() {
@@ -83,4 +99,15 @@ export class LoginComponent {
         }
       });
   }
+
+  togglePasswordVisibility(event: Event): void {
+    event.preventDefault();
+    this.passwordVisible = !this.passwordVisible;
+
+    const input = document.getElementById('password') as HTMLInputElement;
+    if (input) {
+      input.type = this.passwordVisible ? 'text' : 'password';
+    }
+  }
+
 }

@@ -1,149 +1,106 @@
-<button class="home-button" [routerLink]="['/user']">Home</button>
+<button class="home-button" [routerLink]="['/user']">
+  <i class="fas fa-home"></i>
+</button>
 <div class="full-page-background">
   <div class="register-container">
-    <h2>EEZY CABS Registration</h2>
-    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+    <div class="register-header">
+      <h2>Create Your Account</h2>
+      <p>Join EEZY CABS today for a seamless experience</p>
+    </div>
+
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm" class="register-form">
       <div class="form-row">
         <div class="form-group">
-          <label for="userType">Register as:</label>
-          <select 
-            id="userType" 
-            name="userType" 
-            [(ngModel)]="registerData.role" 
-            class="form-control" 
-            required
-            [disabled]="isOtpSent"
-          >
-            <option value="user">User</option>
-            <option value="driver">Driver</option>
-          </select>
+          <label for="userType">Register as</label>
+          <div class="select-wrapper">
+            <select id="userType" name="userType" [(ngModel)]="registerData.role" class="form-control" required
+              [disabled]="isOtpSent">
+              <option value="user">User</option>
+              <option value="driver">Driver</option>
+            </select>
+            <i class="fas fa-chevron-down"></i>
+          </div>
         </div>
         <div class="form-group">
-          <label for="name">Full Name:</label>
-          <input 
-            type="text" 
-            id="name" 
-            name="name"
-            autocomplete="off" 
-            required 
-            [(ngModel)]="registerData.name" 
-            class="form-control" 
-            [disabled]="isOtpSent"
-            #nameInput="ngModel"
-          />
+          <label for="name">Full Name</label>
+          <div class="input-wrapper">
+            <input type="text" id="name" name="name" autocomplete="off" required [(ngModel)]="registerData.name"
+              class="form-control" [disabled]="isOtpSent" #nameInput="ngModel" placeholder="John Doe" />
+            <i class="fas fa-user"></i>
+          </div>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="email">Email:</label>
-          <input 
-            type="email" 
-            id="email" 
-            name="email" 
-            autocomplete="off"
-            required 
-            [(ngModel)]="registerData.email" 
-            class="form-control" 
-            [disabled]="isOtpSent"
-            #emailInput="ngModel"
-            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-          />
+          <label for="email">Email</label>
+          <div class="input-wrapper">
+            <input type="email" id="email" name="email" autocomplete="off" required [(ngModel)]="registerData.email"
+              class="form-control" [disabled]="isOtpSent" #emailInput="ngModel"
+              pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="john@example.com" />
+            <i class="fas fa-envelope"></i>
+          </div>
         </div>
         <div class="form-group">
-          <label for="phone">Phone Number:</label>
-          <input 
-            type="tel" 
-            id="phone" 
-            name="phone" 
-            autocomplete="off"
-            required 
-            [(ngModel)]="registerData.phone" 
-            class="form-control" 
-            [disabled]="isOtpSent"
-            #phoneInput="ngModel"
-            pattern="^[0-9]{10}$"
-          />
+          <label for="phone">Phone Number</label>
+          <div class="input-wrapper">
+            <input type="tel" id="phone" name="phone" autocomplete="off" required [(ngModel)]="registerData.phone"
+              class="form-control" [disabled]="isOtpSent" #phoneInput="ngModel" pattern="^[0-9]{10}$"
+              placeholder="9876543210" />
+            <i class="fas fa-phone"></i>
+          </div>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="password">Password:</label>
-          <input 
-            type="password" 
-            id="password" 
-            name="password" 
-            autocomplete="off"
-            required 
-            [(ngModel)]="registerData.password" 
-            class="form-control" 
-            [disabled]="isOtpSent"
-            #passwordInput="ngModel"
-            minlength="6"
-          />
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="password" name="password" autocomplete="off" required
+              [(ngModel)]="registerData.password" class="form-control" [disabled]="isOtpSent" #passwordInput="ngModel"
+              minlength="6" placeholder="••••••" />
+            <i class="fas fa-lock"></i>
+          </div>
         </div>
         <div class="form-group">
-          <label for="confirm-password">Confirm Password:</label>
-          <input 
-            type="password" 
-            id="confirm-password" 
-            name="confirmPassword" 
-            autocomplete="off"
-            required 
-            [(ngModel)]="registerData.confirmPassword" 
-            class="form-control" 
-            [disabled]="isOtpSent"
-            #confirmPasswordInput="ngModel"
-          />
+          <label for="confirm-password">Confirm Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="confirm-password" name="confirmPassword" autocomplete="off" required
+              [(ngModel)]="registerData.confirmPassword" class="form-control" [disabled]="isOtpSent"
+              #confirmPasswordInput="ngModel" placeholder="••••••" />
+            <i class="fas fa-lock"></i>
+          </div>
         </div>
       </div>
 
-      <div class="otp-section">
-        <button type="button" class="btn btn-primary" (click)="sendOtp()">
-          Send OTP
+      <div class="otp-section" *ngIf="!isOtpVerified">
+        <button type="button" class="btn btn-send-otp" (click)="sendOtp()" [disabled]="isOtpSent">
+          {{ isOtpSent ? 'OTP Sent' : 'Send OTP' }}
+          <i class="fas fa-paper-plane"></i>
         </button>
 
-        <div class="form-group otp-field" *ngIf="isOtpSent">
+        <div class="otp-field" *ngIf="isOtpSent">
           <div class="otp-input-container">
-            <input 
-              type="text" 
-              id="otp" 
-              name="otp" 
-              [(ngModel)]="registerData.otp" 
-              class="form-control otp-input" 
-              [disabled]="!isOtpSent"
-              #otpInput="ngModel"
-              required
-              pattern="^[0-9]{6}$"
-              placeholder="Enter 6-digit OTP"
-            />
+            <input type="text" id="otp" name="otp" [(ngModel)]="registerData.otp" class="form-control otp-input"
+              [disabled]="!isOtpSent" #otpInput="ngModel" required pattern="^[0-9]{6}$" placeholder="Enter 6-digit OTP"
+              maxlength="6" />
             <span class="timer" *ngIf="otpTimer > 0">
-              {{ formattedOtpTimer }}
+              <i class="fas fa-clock"></i> {{ formattedOtpTimer }}
             </span>
           </div>
 
-          <div class="otp-actions">
-            <button 
-              type="button" 
-              class="btn btn-verify" 
-              (click)="verifyOtp()" 
-              *ngIf="otpTimer > 0"
-              [disabled]="otpInput.invalid"
-            >
-              Verify OTP
-            </button>
-          </div>
+          <button type="button" class="btn btn-verify" (click)="verifyOtp()" *ngIf="otpTimer > 0"
+            [disabled]="otpInput.invalid">
+            Verify OTP
+            <i class="fas fa-check-circle"></i>
+          </button>
         </div>
       </div>
 
       <div class="submit-section">
-        <button 
-          type="submit" 
-          class="btn btn-success" 
-          [disabled]="!isOtpVerified"
-        >
+        <button type="submit" class="btn btn-register" [disabled]="!isOtpVerified">
           Create Account
+          <i class="fas fa-arrow-right"></i>
         </button>
 
         <div class="login-link">

@@ -1,0 +1,75 @@
+<!-- Header Component -->
+<nav class="navbar">
+  <div class="container">
+    <div class="logo" [routerLink]="['/user']">
+      <span class="logo-icon">🚕</span>
+      <span class="logo-text">EEZY CABS</span>
+    </div>
+    <div class="nav-actions">
+      <button *ngIf="!isUserLoggedIn()" class="login-btn" [routerLink]="['/auth/login']">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </button>
+      <button *ngIf="isUserLoggedIn()" class="user-btn" [routerLink]="['/user/profile']">
+        <i class="fas fa-user-circle"></i> {{ userName }}
+      </button>
+      <button class="menu-toggle" (click)="toggleSidebar()" aria-label="Toggle menu">
+        <i class="fas" [ngClass]="{'fa-bars': !sidebarOpen, 'fa-times': sidebarOpen}"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Sidebar -->
+<div class="sidebar-overlay" [ngClass]="{'active': sidebarOpen}" (click)="toggleSidebar()"></div>
+<div class="sidebar" [ngClass]="{'active': sidebarOpen}">
+  <div class="sidebar-header">
+    <h3>EEZY CABS</h3>
+  </div>
+  <div class="sidebar-content">
+    <div class="user-info" *ngIf="isUserLoggedIn()">
+      <div class="user-avatar">
+        <i class="fas fa-user-circle"></i>
+      </div>
+      <div class="user-details">
+        <h4>{{ userName }}</h4>
+        <button class="logout-btn" (click)="Logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+
+    <div class="sidebar-menu">
+      <a class="menu-item" [routerLink]="['/user']" (click)="toggleSidebar()">
+        <i class="fas fa-home"></i> Home
+      </a>
+      <a class="menu-item" [routerLink]="['/user/book-cab']" (click)="toggleSidebar()">
+        <i class="fas fa-taxi"></i> Book Ride
+      </a>
+      <a class="menu-item" [routerLink]="['/user/profile']" (click)="toggleSidebar()">
+        <i class="fas fa-user"></i> My Profile
+      </a>
+      <a class="menu-item" [routerLink]="['/user/rides']" (click)="toggleSidebar()">
+        <i class="fas fa-history"></i> Ride History
+      </a>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="social-links">
+        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+      </div>
+      <div class="app-download">
+        <p>Download our app</p>
+        <div class="app-buttons">
+          <button class="app-store-btn">
+            <i class="fab fa-apple"></i> App Store
+          </button>
+          <button class="play-store-btn">
+            <i class="fab fa-google-play"></i> Google Play
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
