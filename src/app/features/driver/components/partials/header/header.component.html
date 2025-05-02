@@ -1,18 +1,41 @@
-<header>
-     <div class="navbar">
-          <div class="logo">
-               <h1>EEZY CABS</h1>
+<header class="app-header">
+     <div class="header-container">
+          <!-- Logo with potential to add icon -->
+          <div class="logo-container">
+               <a routerLink="/" class="logo-link">
+                    <h1 class="logo-text">EEZY CABS</h1>
+               </a>
           </div>
-          <nav>
-               <ul class="nav-links">
-                    <li><a >Home</a></li>
-                    <li><a [routerLink]="['/driver/shifts']">Shift</a></li>
-                    <li><a >Rides</a></li>
-                    <li><a >Profile</a></li>
+
+          <!-- Mobile menu toggle -->
+          <button class="mobile-menu-toggle" (click)="toggleMenu()" aria-label="Toggle navigation">
+               <i class="fas" [ngClass]="{'fa-bars': !menuOpen, 'fa-times': menuOpen}"></i>
+          </button>
+
+          <!-- Navigation -->
+          <nav class="nav-container" [class.active]="menuOpen">
+               <ul class="nav-list">
+                    <li class="nav-item">
+                         <a class="nav-link" routerLink="/driver">Home</a>
+                    </li>
+                    <li class="nav-item">
+                         <a class="nav-link" [routerLink]="['/driver/shifts']">Shift</a>
+                    </li>
+                    <li class="nav-item">
+                         <a class="nav-link" routerLink="/driver/rides">Rides</a>
+                    </li>
+                    <li class="nav-item">
+                         <a class="nav-link" routerLink="/driver/profile">Profile</a>
+                    </li>
                </ul>
           </nav>
-          <div class="logout">
-               <button (click)="Logout()">Logout</button>
+
+          <!-- Logout button -->
+          <div class="action-container">
+               <button class="logout-btn" (click)="Logout()">
+                    <span class="logout-text">Logout</span>
+                    <i class="fas fa-sign-out-alt logout-icon"></i>
+               </button>
           </div>
      </div>
 </header>

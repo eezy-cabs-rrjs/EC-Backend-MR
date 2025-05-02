@@ -11,6 +11,9 @@
       ],
       "@core/*": [
         "app/core/*"
+      ],
+      "@assets/*": [
+        "assets/*"
       ]
     },
     "outDir": "./dist/out-tsc",

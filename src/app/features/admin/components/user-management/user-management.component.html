@@ -1,21 +1,14 @@
 <app-header></app-header>
 <div class="user-list-container">
      <h1 class="title">User List</h1>
-     <div *ngIf="users.length === 0" class="no-users">
-          <p>No users available.</p>
-     </div>
-     <ul *ngIf="users.length > 0" class="user-list">
-          <li *ngFor="let user of users" class="user-item">
-               <img src="../../../../../assets/img/profile/user.png" alt="Profile Image" class="profile-image" />
-               <div class="user-info">
-                    <h2 class="user-name">{{ user.name }}</h2>
-                    <p class="user-email">{{ user.email }}</p>
-               </div>
-               <div class="user-actions">
-                    <button [ngClass]="user.status ? 'block-button' : 'unblock-button'" (click)="toggleStatus(user)">
-                         {{ user.status ? 'Block' : 'Unblock' }}
-                    </button>
-               </div>
-          </li>
-     </ul>
+     
+     <ng-template #statusActionsTemplate let-user>
+          <button [ngClass]="user.status ? 'block-button' : 'unblock-button'" (click)="toggleStatus(user)">
+               {{ user.status ? 'Block' : 'Unblock' }}
+          </button>
+     </ng-template>
+     
+     <app-table [columns]="columns" [data]="users" [loading]="loading" (rowClick)="onRowClick($event)">
+     </app-table>
+
 </div>

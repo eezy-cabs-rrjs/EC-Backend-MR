@@ -1,20 +1,15 @@
 <app-header></app-header>
+
 <div class="user-list-container">
-     <h1 class="title">KYC Pending</h1>
-     <div *ngIf="users.length === 0" class="no-users">
-          <p>No users available.</p>
-     </div>
-     <ul *ngIf="users.length > 0" class="user-list">
-          <li *ngFor="let user of users" class="user-item">
-               <img src="../../../../../assets/img/profile/user.png" alt="Profile Image" class="profile-image" />
-               <div class="user-info">
-                    <h2 class="user-name">{{ user.name }}</h2>
-                    <p class="user-email">{{ user.email }}</p>
-               </div>
-               <div class="user-actions">
-                    <button class="view-button" [routerLink]="['/admin/driver-kyc']"
-                         [queryParams]="{ id: user.userId }">View KYC</button>
-               </div>
-          </li>
-     </ul>
+     <h1 class="title">KYC List</h1>
+
+<ng-template #actionsTemplate let-user>
+     <button class="view-button" [routerLink]="['/admin/driver-kyc']" [queryParams]="{ id: user.userId }">
+          View KYC
+     </button>
+</ng-template>
+
+<app-table [columns]="columns" [data]="users" [loading]="loading" (rowClick)="onRowClick($event)"
+     (sortChange)="onSortChange($event)">
+</app-table>
 </div>

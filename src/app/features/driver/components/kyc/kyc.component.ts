@@ -1,10 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { HeaderComponent } from '../partials/header/header.component';
 import { DriverService } from '../../services/driver.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { FooterComponent } from '@shared/components/partials/footer/footer.component';
 
 @Component({
   selector: 'app-kyc',
@@ -12,7 +13,8 @@ import { ToastrService } from 'ngx-toastr';
   imports: [
     CommonModule,
     FormsModule,
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent
   ],
   templateUrl: './kyc.component.html',
   styleUrl: './kyc.component.css'
@@ -25,7 +27,9 @@ export class KycComponent implements OnInit {
   constructor(
     private driverService: DriverService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    @Inject(PLATFORM_ID) private platformId: Object
+
   ) { }
 
   driverDetails: any = {
@@ -52,10 +56,14 @@ export class KycComponent implements OnInit {
   }
 
   checkKycStatus() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
     const user = localStorage.getItem('user');
     if (!user) {
       this.toastr.error('User  not found!', 'Error');
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
       return;
     }
 

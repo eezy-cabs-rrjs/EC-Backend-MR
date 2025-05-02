@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../../auth/services/auth.service';
+import { AuthService } from '@features/auth/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { faBars, faTimes, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -16,11 +17,20 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent {
 
+  menuOpen = false;
+  faBars = faBars;
+  faTimes = faTimes;
+  faSignOutAlt = faSignOutAlt;
+
   constructor(
     private router: Router,
     private authService: AuthService,
     private toastr: ToastrService    
   ){}
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
 
   Logout() {
     if (typeof window !== 'undefined' && window.localStorage) {

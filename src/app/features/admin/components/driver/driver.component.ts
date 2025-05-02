@@ -43,7 +43,7 @@ export class DriverComponent implements OnInit {
   userId: string = '';
   isEditable: boolean = false;
   isBlocked: boolean = false;
-  imageUrl : string = '../../../../../assets/img/profile/taxi driver.png';
+  imageUrl : string = '@assets/img/profile/taxi driver.png';
 
   ngOnInit(): void {
       
