@@ -1,0 +1,24 @@
+type Analytics {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateAnalyticsInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateAnalyticsInput {
+  id: Int!
+}
+
+type Query {
+  analytics: [Analytics]!
+  analytics(id: Int!): Analytics
+}
+
+type Mutation {
+  createAnalytics(createAnalyticsInput: CreateAnalyticsInput!): Analytics!
+  updateAnalytics(updateAnalyticsInput: UpdateAnalyticsInput!): Analytics!
+  removeAnalytics(id: Int!): Analytics
+}
