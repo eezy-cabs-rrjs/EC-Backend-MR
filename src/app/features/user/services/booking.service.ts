@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/env';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookingService {
 
-  host = `${environment.backend}`
+  host = `${environment.BACKEND}`
 
   constructor(private http: HttpClient) { }
 
@@ -20,7 +20,7 @@ export class BookingService {
     departure: string,
     destination: string,
   ) {
-    return this.http.post<any>(`${this.host}/api/book-cab`, {
+    return this.http.post<any>(`${this.host}/book-cab`, {
       userId,
       driverId,
       riderName,
@@ -35,10 +35,10 @@ export class BookingService {
     lat: number;
     lng: number;
   } ){
-    return this.http.post<any>(`${this.host}/api/avail-drivers`, depCoords );
+    return this.http.post<any>(`${this.host}/avail-drivers`, depCoords );
   }
 
   checkRide(userId: string){
-    return this.http.get<any>(`${this.host}/api/check-ride?id=${userId}`);
+    return this.http.get<any>(`${this.host}/check-ride?id=${userId}`);
   }
 }

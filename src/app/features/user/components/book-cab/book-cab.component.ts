@@ -2,16 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { environment } from '../../../../../environments/env';
 import { Loader } from '@googlemaps/js-api-loader';
 import { BookingService } from '../../services/booking.service';
-import { UserService } from '../../services/user.service';
 import { AvailDriversComponent } from './avail-drivers/avail-drivers.component';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FooterComponent } from '@shared/components/partials/footer/footer.component';
 import { HeaderComponent } from '@shared/components/partials/header/header.component';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-book-cab',
@@ -19,7 +18,6 @@ import { HeaderComponent } from '@shared/components/partials/header/header.compo
   imports: [
     FormsModule,
     GoogleMapsModule,
-    FooterComponent,
     HeaderComponent,
     AvailDriversComponent,
     CommonModule
@@ -39,13 +37,12 @@ export class BookCabComponent implements OnInit {
   selectedDriver: any;
   showDriversModal: boolean = false;
 
-  private apiKey = environment.apiKey;
-  private gmapUrl = environment.gmapUrl;
+  private apiKey = environment.APIKEY;
+  private gmapUrl = environment.GMAP_URL;
 
   constructor(
     private sanitizer: DomSanitizer,
     private bookingService: BookingService,
-    private userService: UserService,
     private router: Router,
     private toastr: ToastrService
   ) {
@@ -54,14 +51,14 @@ export class BookCabComponent implements OnInit {
 
   ngOnInit(): void {
     if (typeof window !== 'undefined' && 'geolocation' in window.navigator) {
-      const userString = localStorage.getItem('user');
+      const userString = sessionStorage.getItem('user');
       let user: { role?: string } | null = null;
 
       if (userString) {
         try {
           user = JSON.parse(userString);
         } catch (error) {
-          console.error('Error parsing user from localStorage:', error);
+          console.error('Error parsing user from sessionStorage:', error);
           this.toastr.error('Error loading your profile data', 'Error');
         }
       }
@@ -193,8 +190,12 @@ export class BookCabComponent implements OnInit {
     this.showDriversModal = false;
   }
 
-  closeModal() {
+  closeModal($event : boolean): void {
     this.showDriversModal = false;
-    this.toastr.info('You can modify your booking details if needed', 'Booking Open');
-  }
+    if ($event) {
+      this.toastr.success('You can modify your booking details if needed', 'Booking Open');
+    } else {
+      this.toastr.info('Your booking has been cancelled or is not active', 'Booking Cancelled');
+    }
+}
 }

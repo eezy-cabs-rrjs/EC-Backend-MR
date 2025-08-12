@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/env';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,17 +10,17 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  host = `${environment.backend}`
+  host = `${environment.BACKEND}`
 
 
   getUDataFLS(key: string) {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const data = localStorage.getItem('user');
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      const data = sessionStorage.getItem('user');
       if (data) {
         try {
           return JSON.parse(data);
         } catch (error) {
-          console.error('Error parsing data from localStorage:', error);
+          console.error('Error parsing data from sessionStorage:', error);
         }
       }
     }

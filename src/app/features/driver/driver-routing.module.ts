@@ -7,7 +7,9 @@ import { driverLoggedGuard } from '../../core/guards/driver-logged.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'kyc', pathMatch: 'full' },
-  { path: 'kyc', component: KycComponent, canActivate: [driverLoggedGuard] },
+  { path: 'kyc', component: KycComponent,
+    //  canActivate: [driverLoggedGuard] 
+    },
   { path: 'shifts', component: ShiftsComponent, canActivate: [driverLoggedGuard] },
 ];
 

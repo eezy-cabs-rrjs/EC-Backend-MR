@@ -11,14 +11,14 @@ export const driverLoggedGuard: CanActivateFn = (route, state) => {
     email: string;
   } = { role: '', userId: '', name: '', email: '' }; // Default values
 
-  if (typeof window !== 'undefined' && window.localStorage) {
-    authToken = localStorage.getItem('authToken');
-    const storedUser = localStorage.getItem('user');
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    authToken = sessionStorage.getItem('authToken');
+    const storedUser = sessionStorage.getItem('user');
     if (storedUser) {
       try {
         user = JSON.parse(storedUser);
       } catch (error) {
-        console.error('Error parsing user data from localStorage', error);
+        console.error('Error parsing user data from sessionStorage', error);
       }
     }
   }

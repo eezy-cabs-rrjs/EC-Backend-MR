@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { LoginService } from '../services/login.service';
 import { ToastrService } from 'ngx-toastr';
+import { Role } from '../services/interfaces/login.interface';
 
 @Component({
   selector: 'app-login',
@@ -20,28 +21,34 @@ export class LoginComponent {
   loginData = {
     email: '',
     password: '',
-    role: 'user'
+    role: Role.USER
   };
 
-  submitted : boolean = false;
-  isLoading : boolean = false;
+  submitted: boolean = false;
+  isLoading: boolean = false;
   passwordVisible: boolean = false;
-  showAdminRole  :boolean = false;
+  showAdminRole: boolean = false;
 
   private holdTimeout: any;
 
   constructor(
     private router: Router,
-    private authService: AuthService,
+    private authService: LoginService,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   navigateHome() {
     this.router.navigate(['/user']);
   }
 
   onLogoHold() {
-    this.holdTimeout = setTimeout(() => this.revealAdminRole(), 1500);
+    this.holdTimeout = setTimeout(() => {
+      this.revealAdminRole();
+      this.toastr.info('Admin role unlocked!', 'Easter Egg Discovered', {
+        timeOut: 3000,
+        positionClass: 'toast-bottom-right'
+      });
+    }, 1500);
   }
 
   cancelHold() {
@@ -61,28 +68,39 @@ export class LoginComponent {
     }
 
     this.isLoading = true;
+    const userAgent = navigator.userAgent;
 
-    this.authService.UserLogin(this.loginData.email, this.loginData.password, this.loginData.role)
+    const data = {
+      ...this.loginData,
+      userAgent: userAgent
+    };
+
+    this.authService.UserLogin(data)
       .subscribe({
         next: (response) => {
           if (response.success) {
-            if (typeof window !== 'undefined' && window.localStorage) {
-              localStorage.setItem('authToken', response.authToken);
-              localStorage.setItem('user', JSON.stringify(response.user));
+            if (response.authToken && typeof window !== 'undefined' && window.sessionStorage) {
+              sessionStorage.setItem('authToken', response.authToken);
             }
 
-            this.toastr.success('Login Successful!', 'Success');
+            if (response.user) {
+              sessionStorage.setItem('user', JSON.stringify(response.user));
 
-            switch (response.user.role) {
-              case 'user':
-                this.router.navigate(['/user/']);
-                break;
-              case 'driver':
-                this.router.navigate(['/driver/']);
-                break;
-              case 'admin':
-                this.router.navigate(['/admin/']);
-                break;
+              this.toastr.success('Login Successful!', 'Success');
+
+              switch (response.user.role) {
+                case 'user':
+                  this.router.navigate(['/user/']);
+                  break;
+                case 'driver':
+                  this.router.navigate(['/driver/']);
+                  break;
+                case 'admin':
+                  this.router.navigate(['/admin/']);
+                  break;
+              }
+            } else {
+              this.toastr.error('User information missing', 'Error');
             }
           } else {
             this.toastr.error(response.message || 'Login failed', 'Error');
@@ -91,10 +109,10 @@ export class LoginComponent {
         error: (error) => {
           console.error('Login failed:', error);
           this.toastr.error(error.message, 'Error');
-          this.isLoading = false; 
+          this.isLoading = false;
         },
         complete: () => {
-          this.isLoading = false; 
+          this.isLoading = false;
           console.log('Login process completed');
         }
       });

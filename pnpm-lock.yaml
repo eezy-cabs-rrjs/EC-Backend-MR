@@ -62,6 +62,9 @@ importers:
       jquery:
         specifier: ^3.7.1
         version: 3.7.1
+      ngx-image-compress:
+        specifier: ^18.1.5
+        version: 18.1.5(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))
       ngx-ldrs:
         specifier: ^17.1.0
         version: 17.1.0
@@ -3121,6 +3124,12 @@ packages:
 
   neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
+
+  ngx-image-compress@18.1.5:
+    resolution: {integrity: sha512-g/k6fK3mTPB5ZQ13KiYrOHdKXgXXZ0/rkXdgP0jQaroXLGu7sGlmvJqSseq/B+1d/6IsBo1wT5oeAzxymuwkfw==}
+    peerDependencies:
+      '@angular/common': x.x.x
+      '@angular/core': x.x.x
 
   ngx-ldrs@17.1.0:
     resolution: {integrity: sha512-ZeNT0ZU8eVbtr5+UYTES4fInJHY4ieDf4HjPiSgKl3Iz+e/Usz2OZD7wITohOe/RD3KIFTbEfoXIbiafKHljnQ==}
@@ -8020,6 +8029,12 @@ snapshots:
   negotiator@0.6.4: {}
 
   neo-async@2.6.2: {}
+
+  ngx-image-compress@18.1.5(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)):
+    dependencies:
+      '@angular/common': 17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
+      '@angular/core': 17.3.12(rxjs@7.8.1)(zone.js@0.14.10)
+      tslib: 2.8.1
 
   ngx-ldrs@17.1.0:
     dependencies:

@@ -5,12 +5,12 @@ export const NotLoggedGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   let authToken: string | null = null;
 
-  if (typeof window !== 'undefined' && window.localStorage) {
-    authToken = localStorage.getItem('authToken');
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    authToken = sessionStorage.getItem('authToken');
   }
 
   if (authToken) {
-    const userData = localStorage.getItem('user');
+    const userData = sessionStorage.getItem('user');
 
     if (userData) {
       try {
@@ -28,7 +28,7 @@ export const NotLoggedGuard: CanActivateFn = (route, state) => {
           console.error('Unknown user role:', user.role);
         }
       } catch (error) {
-        console.error('Error parsing user data from localStorage:', error);
+        console.error('Error parsing user data from sessionStorage:', error);
       }
     }
   }

@@ -1,67 +1,54 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 @import 'ngx-toastr/toastr';
-
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-} 
-
-/* Custom Scrollbar for Webkit Browsers (Chrome, Safari, Edge) */
-::-webkit-scrollbar {
-  width: 8px; /* Width of the scrollbar */
-  height: 8px; /* Height of the scrollbar for horizontal scroll */
-}
-
-::-webkit-scrollbar-track {
-  background: #e0e0e0; /* Light background for the scrollbar track */
-  border-radius: 10px; /* Rounded corners for the track */
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #4caf50, #81c784); /* Gradient color for the scrollbar thumb */
-  border-radius: 10px; /* Rounded corners for the thumb */
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #388e3c, #66bb6a); /* Darker gradient on hover */
-}
-
-/* Custom Scrollbar for Firefox */
-* {
-  scrollbar-width: thin; /* Makes the scrollbar thinner */
-  scrollbar-color: #4caf50 #e0e0e0; /* Thumb color and track color */
-}
-
-/* For Firefox hover effect */
-*::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #388e3c, #66bb6a); /* Darker gradient on hover */
-}
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 html {
   box-sizing: border-box;
-  overflow-x: hidden; /* Prevent horizontal scrolling on entire page */
+  overflow-x: hidden;
 }
 
 *, *:before, *:after {
   box-sizing: inherit;
 }
 
-* {
-  max-width: 100%;
-}
-
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* Extra protection against horizontal scroll */
-  position: relative; /* Helps contain fixed elements */
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+  color: #2d3748;
+}
+
+/* Custom Scrollbar for Webkit Browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #5a67d8, #6b46c1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #4c51bf, #5a46a8);
+}
+
+/* Custom Scrollbar for Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #5a67d8 #e2e8f0;
 }
 
 iframe {
   max-width: 100%;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

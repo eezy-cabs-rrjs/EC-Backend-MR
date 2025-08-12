@@ -2,18 +2,24 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-     providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoadingService {
-     private isLoading = new BehaviorSubject<boolean>(false);
-     isLoading$ = this.isLoading.asObservable();
+  private isPaused = false;
 
-     show() {
-          this.isLoading.next(true);
-     }
+  private isLoading = new BehaviorSubject<boolean>(false);
+  isLoading$ = this.isLoading.asObservable();
 
-     hide() {
-          this.isLoading.next(false);
-     }
+  show() {
+    this.isLoading.next(true);
+  }
+
+  hide() {
+    this.isLoading.next(false);
+  }
+
+  pauseGlobalLoader(pause: boolean) {
+    this.isPaused = pause;
+    if (pause) this.hide();
+  }
 }
-

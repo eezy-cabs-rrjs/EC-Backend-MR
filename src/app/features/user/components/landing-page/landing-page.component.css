@@ -1,11 +1,16 @@
-/* Landing Page Styles */
 .landing-page {
   font-family: 'Poppins', sans-serif;
   color: #333;
   overflow-x: hidden;
 }
 
-/* Hero Section */
+.container {
+  width: 100%;
+  padding: 0 20px;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
 .hero {
   position: relative;
   height: 90vh;
@@ -118,9 +123,8 @@
   100% { transform: translateY(0px); }
 }
 
-/* Features Section */
 .features {
-  padding: 80px 0;
+  padding: 40px 0;
   background-color: white;
 }
 
@@ -184,9 +188,8 @@
   line-height: 1.6;
 }
 
-/* How It Works Section */
 .how-it-works {
-  padding: 80px 0;
+  padding: 40px 0;
   background-color: #f8f9fa;
 }
 
@@ -228,9 +231,8 @@
   line-height: 1.6;
 }
 
-/* Testimonials Section */
 .testimonials {
-  padding: 80px 0;
+  padding: 40px 0;
   background-color: white;
 }
 
@@ -288,13 +290,6 @@
   margin: 5px 0 0;
   font-size: 0.9rem;
   color: #777;
-}
-
-/* App Download Section */
-.app-download {
-  padding: 80px 0;
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
-  color: white;
 }
 
 .app-content {
@@ -365,9 +360,8 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
-/* Contact Section */
 .contact {
-  padding: 80px 0;
+  padding: 40px 0;
   background-color: white;
 }
 
@@ -466,11 +460,15 @@
   transform: translateY(-2px);
 }
 
-/* Responsive Styles */
 @media (max-width: 992px) {
   .hero-content {
     flex-direction: column;
     text-align: center;
+  }
+
+  .hero {
+    height: auto;
+    padding: 100px 0 60px;
   }
   
   .hero-text {
@@ -505,6 +503,15 @@
     font-size: 2.5rem;
   }
   
+  .container {
+    padding: 0 15px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
   .section-title {
     font-size: 2rem;
   }

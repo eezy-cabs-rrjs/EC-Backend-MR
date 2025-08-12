@@ -1,7 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../../auth/services/auth.service';
 import { ChatService } from '../../services/chat.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -34,7 +33,6 @@ export class ChatComponent
   {
   private chatService = inject(ChatService);
   private route = inject(ActivatedRoute);
-  private authService = inject(AuthService);
 
   rideId: string = '';
   userId: string = '';

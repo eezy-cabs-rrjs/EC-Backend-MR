@@ -8,105 +8,230 @@
       <p>Join EEZY CABS today for a seamless experience</p>
     </div>
 
-    <form (ngSubmit)="onRegister()" #registerForm="ngForm" class="register-form">
-      <div class="form-row">
-        <div class="form-group">
-          <label for="userType">Register as</label>
-          <div class="select-wrapper">
-            <select id="userType" name="userType" [(ngModel)]="registerData.role" class="form-control" required
-              [disabled]="isOtpSent">
-              <option value="user">User</option>
-              <option value="driver">Driver</option>
-            </select>
-            <i class="fas fa-chevron-down"></i>
+    <form [formGroup]="signupForm" class="register-form">
+      <!-- Form fields for fresh registration or before OTP -->
+      <div *ngIf="!isOtpSent && !isResumingRegistration">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="userType">Register as</label>
+            <div class="select-wrapper">
+              <select id="userType" formControlName="role" class="form-control">
+                <option value="USER">User</option>
+                <option value="DRIVER">Driver</option>
+              </select>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div *ngIf="signupForm.get('role')?.touched && signupForm.get('role')?.errors?.['required']" class="error">
+              Please select a role.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <div class="input-wrapper">
+              <input type="text" id="name" formControlName="name" autocomplete="off" class="form-control"
+                placeholder="John Doe" aria-describedby="name-error" />
+              <i class="fas fa-user"></i>
+            </div>
+            <div *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.errors?.['required']" id="name-error"
+              class="error">
+              Full Name is required.
+            </div>
           </div>
         </div>
-        <div class="form-group">
-          <label for="name">Full Name</label>
-          <div class="input-wrapper">
-            <input type="text" id="name" name="name" autocomplete="off" required [(ngModel)]="registerData.name"
-              class="form-control" [disabled]="isOtpSent" #nameInput="ngModel" placeholder="John Doe" />
-            <i class="fas fa-user"></i>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <div class="input-wrapper">
+              <input type="email" id="email" formControlName="email" (blur)="checkEmailAndLoadProgress()"
+                autocomplete="off" class="form-control" placeholder="john@example.com" aria-describedby="email-error" />
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.errors?.['required']"
+              id="email-error" class="error">
+              Email is required.
+            </div>
+            <div *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.errors?.['pattern']"
+              id="email-error" class="error">
+              Please enter a valid email address.
+            </div>
           </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <div class="input-wrapper">
+              <input type="tel" id="phone" formControlName="phone" autocomplete="off" class="form-control"
+                placeholder="9876543210" aria-describedby="phone-error" />
+              <i class="fas fa-phone"></i>
+            </div>
+            <div *ngIf="signupForm.get('phone')?.touched && signupForm.get('phone')?.errors?.['required']"
+              id="phone-error" class="error">
+              Phone Number is required.
+            </div>
+            <div *ngIf="signupForm.get('phone')?.touched && signupForm.get('phone')?.errors?.['pattern']"
+              id="phone-error" class="error">
+              Phone Number must be exactly 10 digits.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+              <input type="password" id="password" formControlName="password" autocomplete="off" class="form-control"
+                placeholder="••••••" aria-describedby="password-error">
+              <i class="fas fa-lock"></i>
+              <button type="button" class="toggle-password" (click)="togglePasswordVisibility('password')">
+                <i class="fas" [ngClass]="passwordVisible.password ? 'fa-eye-slash' : 'fa-eye'"></i>
+              </button>
+            </div>
+            <div *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['required']"
+              id="password-error" class="error">
+              Password is required.
+            </div>
+            <div *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['minlength']"
+              id="password-error" class="error">
+              Password must be at least 6 characters long.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="confirm-password">Confirm Password</label>
+            <div class="input-wrapper">
+              <input type="password" id="confirm-password" formControlName="confirmPassword" autocomplete="off"
+                class="form-control" placeholder="••••••" aria-describedby="confirm-password-error" />
+              <i class="fas fa-lock"></i>
+              <button type="button" class="toggle-password" (click)="togglePasswordVisibility('confirmPassword')">
+                <i class="fas" [ngClass]="passwordVisible.confirmPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+              </button>
+            </div>
+            <div
+              *ngIf="signupForm.get('confirmPassword')?.touched && signupForm.get('confirmPassword')?.errors?.['required']"
+              id="confirm-password-error" class="error">
+              Please confirm your password.
+            </div>
+            <div *ngIf="signupForm.get('confirmPassword')?.touched && signupForm.errors?.['mismatch']"
+              id="confirm-password-error" class="error">
+              Passwords do not match.
+            </div>
+          </div>
+        </div>
+
+        <!-- Driver-Specific Fields -->
+        <div class="driver-fields" *ngIf="signupForm.get('role')?.value === 'driver'">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="license">License Number</label>
+              <div class="input-wrapper">
+                <input type="text" id="license" formControlName="license" autocomplete="off" class="form-control"
+                  placeholder="DL1234567890" aria-describedby="license-error" />
+                <i class="fas fa-id-card"></i>
+              </div>
+              <div *ngIf="signupForm.get('license')?.touched && signupForm.get('license')?.errors?.['required']"
+                id="license-error" class="error">
+                License Number is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="experience">Driving Experience (Years)</label>
+              <div class="input-wrapper">
+                <input type="number" id="experience" formControlName="experience" autocomplete="off" min="1" max="80"
+                  class="form-control" placeholder="5" aria-describedby="experience-error" />
+                <i class="fas fa-road"></i>
+              </div>
+              <div *ngIf="signupForm.get('experience')?.touched && signupForm.get('experience')?.errors?.['required']"
+                id="experience-error" class="error">
+                Experience is required
+              </div>
+              <div *ngIf="signupForm.get('experience')?.errors?.['min']" id="experience-error" class="error">
+                Experience must be at least 1 year
+              </div>
+              <div *ngIf="signupForm.get('experience')?.errors?.['max']" id="experience-error" class="error">
+                Experience cannot be more than 80 years
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="profilePhoto">Profile Photo</label>
+              <div class="file-input-container">
+                <label for="profilePhoto" class="file-input-label">
+                  <i class="fas fa-camera"></i>
+                  <span class="file-input-text">
+                    {{ state.profilePhotoPreview ? 'Photo selected' : 'Choose a photo...' }}
+                  </span>
+                </label>
+                <input type="file" id="profilePhoto" accept="image/*" (change)="onFileChange($event)"
+                  aria-describedby="profilePhoto-error" />
+              </div>
+              <div
+                *ngIf="signupForm.get('profilePhoto')?.touched && signupForm.get('profilePhoto')?.errors?.['required']"
+                id="profilePhoto-error" class="error">
+                Profile photo is required
+              </div>
+              <div class="image-preview-container" *ngIf="state.profilePhotoPreview">
+                <button class="remove-image-btn" (click)="removeProfilePhoto()" type="button" title="Remove photo">
+                  <i class="fas fa-trash"></i>
+                </button>
+                <img [src]="state.profilePhotoPreview" alt="Profile Preview" class="profile-preview" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Send OTP Button for Fresh Registration -->
+        <div class="form-row">
+          <button type="button" class="btn btn-send-otp" (click)="sendOtp()"
+            [disabled]="signupForm.invalid || registrationInProgress">
+            Send OTP
+            <i class="fas fa-paper-plane"></i>
+          </button>
         </div>
       </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <div class="input-wrapper">
-            <input type="email" id="email" name="email" autocomplete="off" required [(ngModel)]="registerData.email"
-              class="form-control" [disabled]="isOtpSent" #emailInput="ngModel"
-              pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="john@example.com" />
-            <i class="fas fa-envelope"></i>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <div class="input-wrapper">
-            <input type="tel" id="phone" name="phone" autocomplete="off" required [(ngModel)]="registerData.phone"
-              class="form-control" [disabled]="isOtpSent" #phoneInput="ngModel" pattern="^[0-9]{10}$"
-              placeholder="9876543210" />
-            <i class="fas fa-phone"></i>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="password">Password</label>
-          <div class="input-wrapper">
-            <input type="password" id="password" name="password" autocomplete="off" required
-              [(ngModel)]="registerData.password" class="form-control" [disabled]="isOtpSent" #passwordInput="ngModel"
-              minlength="6" placeholder="••••••" />
-            <i class="fas fa-lock"></i>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="confirm-password">Confirm Password</label>
-          <div class="input-wrapper">
-            <input type="password" id="confirm-password" name="confirmPassword" autocomplete="off" required
-              [(ngModel)]="registerData.confirmPassword" class="form-control" [disabled]="isOtpSent"
-              #confirmPasswordInput="ngModel" placeholder="••••••" />
-            <i class="fas fa-lock"></i>
-          </div>
-        </div>
-      </div>
-
-      <div class="otp-section" *ngIf="!isOtpVerified">
-        <button type="button" class="btn btn-send-otp" (click)="sendOtp()" [disabled]="isOtpSent">
-          {{ isOtpSent ? 'OTP Sent' : 'Send OTP' }}
+      <!-- OTP Section for both fresh and resuming registration -->
+      <div class="otp-section" *ngIf="isOtpSent || isResumingRegistration">
+        <button *ngIf="!isResumingRegistration" type="button" class="btn btn-send-otp" (click)="resendOtp()"
+          [disabled]="resendTimer > 0 || otpTimer <= 0 || registrationInProgress">
+          Resend OTP
           <i class="fas fa-paper-plane"></i>
         </button>
+        <span class="resend-timer" *ngIf="state.formattedResendTimer  && !isResumingRegistration">{{
+          state.formattedResendTimer
+          }}</span>
 
-        <div class="otp-field" *ngIf="isOtpSent">
+        <div class="otp-field">
           <div class="otp-input-container">
-            <input type="text" id="otp" name="otp" [(ngModel)]="registerData.otp" class="form-control otp-input"
-              [disabled]="!isOtpSent" #otpInput="ngModel" required pattern="^[0-9]{6}$" placeholder="Enter 6-digit OTP"
-              maxlength="6" />
+            <input type="text" id="otp" formControlName="otp" class="form-control otp-input"
+              placeholder="Enter 6-digit OTP" maxlength="6" [disabled]="otpTimer <= 0" />
             <span class="timer" *ngIf="otpTimer > 0">
-              <i class="fas fa-clock"></i> {{ formattedOtpTimer }}
+              <i class="fas fa-clock"></i> {{ state.formattedOtpTimer }}
             </span>
+            <span class="otp-expiry-info" *ngIf="otpTimer <= 0">OTP expired</span>
+          </div>
+          <div *ngIf="signupForm.get('otp')?.touched && signupForm.get('otp')?.errors?.['pattern']" id="otp-error"
+            class="error">
+            Please enter a valid 6-digit OTP.
           </div>
 
-          <button type="button" class="btn btn-verify" (click)="verifyOtp()" *ngIf="otpTimer > 0"
-            [disabled]="otpInput.invalid">
+          <button type="button" class="btn btn-verify" (click)="verifyOtp()"
+            [disabled]="signupForm.get('otp')?.invalid || registrationInProgress">
             Verify OTP
             <i class="fas fa-check-circle"></i>
           </button>
         </div>
       </div>
-
-      <div class="submit-section">
-        <button type="submit" class="btn btn-register" [disabled]="!isOtpVerified">
-          Create Account
-          <i class="fas fa-arrow-right"></i>
-        </button>
-
+      <div class="submit-section" *ngIf="!isOtpSent && !isResumingRegistration">
         <div class="login-link">
           <p>Already have an account? <a [routerLink]="['/auth/login']">Login here</a></p>
         </div>
       </div>
     </form>
+
+    <div *ngIf="state.imageProcessing$ | async" class="image-processing">
+      <mat-spinner diameter="24"></mat-spinner>
+      <span>Optimizing image...</span>
+    </div>    
   </div>
 </div>

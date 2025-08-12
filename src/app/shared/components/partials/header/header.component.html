@@ -30,6 +30,11 @@
       <div class="user-avatar">
         <i class="fas fa-user-circle"></i>
       </div>
+      <button *ngIf="!isUserLoggedIn()" class="login-btn" [routerLink]="['/auth/login']">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </button>
+
+      
       <div class="user-details">
         <h4>{{ userName }}</h4>
         <button class="logout-btn" (click)="Logout()">

@@ -13,11 +13,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class AvailDriversComponent {
   @Input() drivers: any[] = [];
   @Output() driverSelected = new EventEmitter<any>();
-  @Output() closeModal = new EventEmitter<void>();
+  @Output() closeModal = new EventEmitter<boolean>(false);
+
 
   selectDriver(driver: any) {
     this.driverSelected.emit(driver);
-    this.closeModal.emit(); // Close the modal after selecting a driver
+    this.closeModal.emit(true);
   }
 
 }

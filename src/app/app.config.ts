@@ -6,13 +6,13 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { environment } from '../environments/env';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { environment } from 'environments/environment';
 
 const env = environment;
 
 const config: SocketIoConfig = {
-  url: env.socket,
+  url: env.SOCKET,
   options: {}
 };
 
@@ -22,10 +22,14 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes), 
     provideClientHydration(),
-    provideToastr(),
+    provideToastr({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
     provideAnimations(), provideAnimationsAsync(), provideAnimationsAsync(),
     importProvidersFrom(
       SocketIoModule.forRoot(config)
-    )
+    ), provideAnimationsAsync()
   ]
 };

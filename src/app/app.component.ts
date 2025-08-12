@@ -11,7 +11,6 @@ import { LoadingService } from './shared/components/loading/loading.service';
     LoadingComponent,
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
 })
 export class AppComponent {
   constructor(

@@ -59,9 +59,7 @@
 
   <div *ngIf="showDriversModal">
     <app-avail-drivers *ngIf="showDriversModal" [drivers]="availableDrivers" (driverSelected)="onDriverSelected($event)"
-      (closeModal)="closeModal()">
+      (closeModal)="closeModal($event)">
     </app-avail-drivers>
   </div>
 </div>
-
-<app-footer></app-footer>

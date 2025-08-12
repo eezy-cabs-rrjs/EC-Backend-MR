@@ -54,7 +54,8 @@
                               <input type="text" id="driverLicense" name="driverLicense"
                                    [(ngModel)]="driverDetails.driverLicense" #driverLicense="ngModel"
                                    [readonly]="!isEditable" required minlength="5" maxlength="15" class="form-control"
-                                   placeholder="DL123456789" />
+                                   placeholder="DL123456789"
+                                   (blur)="onFieldBlur('driverLicense', 'driver-information')" />
                               <div *ngIf="driverLicense.invalid && (driverLicense.touched || submitted) && isEditable"
                                    class="validation-error">
                                    <small *ngIf="driverLicense.errors?.['required']">License number is required</small>
@@ -74,8 +75,8 @@
                               <label for="experience">Driving Experience</label>
                               <input type="text" id="experience" name="experience"
                                    [(ngModel)]="driverDetails.experience" #experience="ngModel" [readonly]="!isEditable"
-                                   required pattern="^[0-9]+\s*years?$" class="form-control"
-                                   placeholder="e.g., 5 years" />
+                                   required pattern="^[0-9]+\s*years?$" class="form-control" placeholder="e.g., 5 years"
+                                   (blur)="onFieldBlur('experience', 'driver-information')" />
                               <div *ngIf="experience.invalid && (experience.touched || submitted) && isEditable"
                                    class="validation-error">
                                    <small *ngIf="experience.errors?.['required']">Experience is required</small>
@@ -104,7 +105,8 @@
                               <input type="text" id="vehicleNumber" name="vehicleNumber"
                                    [(ngModel)]="vehicleDetails.vehicleNumber" #vehicleNumber="ngModel"
                                    [readonly]="!isEditable" required maxlength="10" pattern="[A-Z0-9]+"
-                                   class="form-control" placeholder="ABC1234" />
+                                   class="form-control" placeholder="ABC1234"
+                                   (blur)="onFieldBlur('vehicleNumber', 'vehicle-information')" />
                               <div *ngIf="vehicleNumber.invalid && (vehicleNumber.touched || submitted) && isEditable"
                                    class="validation-error">
                                    <small *ngIf="vehicleNumber.errors?.['required']">Plate number is required</small>
@@ -120,7 +122,8 @@
                               <input type="text" id="chassisNumber" name="chassisNumber"
                                    [(ngModel)]="vehicleDetails.chassisNumber" #chassisNumber="ngModel"
                                    [readonly]="!isEditable" required class="form-control"
-                                   placeholder="17-character identifier" />
+                                   placeholder="17-character identifier"
+                                   (blur)="onFieldBlur('chassisNumber', 'vehicle-information')" />
                               <div *ngIf="chassisNumber.invalid && (chassisNumber.touched || submitted)"
                                    class="validation-error">
                                    <small *ngIf="chassisNumber.errors?.['required']">Chassis number is required</small>
@@ -133,7 +136,8 @@
                               <label for="insuranceNumber">Insurance Policy Number</label>
                               <input type="text" id="insuranceNumber" name="insuranceNumber"
                                    [(ngModel)]="vehicleDetails.insuranceNumber" #insuranceNumber="ngModel"
-                                   [readonly]="!isEditable" required class="form-control" />
+                                   [readonly]="!isEditable" required class="form-control"
+                                   (blur)="onFieldBlur('insuranceNumber', 'vehicle-information')" />
                               <div *ngIf="insuranceNumber.invalid && (insuranceNumber.touched || submitted)"
                                    class="validation-error">
                                    <small *ngIf="insuranceNumber.errors?.['required']">Insurance number is
@@ -147,7 +151,8 @@
                               <label for="insuranceExpiry">Insurance Expiry Date</label>
                               <input type="date" id="insuranceExpiry" name="insuranceExpiry"
                                    [(ngModel)]="vehicleDetails.insuranceExpiry" #insuranceExpiry="ngModel"
-                                   [readonly]="!isEditable" required class="form-control" />
+                                   [readonly]="!isEditable" required class="form-control"
+                                   (blur)="onFieldBlur('insuranceExpiry', 'vehicle-information')" />
                               <div *ngIf="insuranceExpiry.invalid && (insuranceExpiry.touched || submitted)"
                                    class="validation-error">
                                    <small *ngIf="insuranceExpiry.errors?.['required']">Expiry date is required</small>
@@ -160,7 +165,8 @@
                               <label for="registrationDate">Registration Date</label>
                               <input type="date" id="registrationDate" name="registrationDate"
                                    [(ngModel)]="vehicleDetails.registrationDate" #registrationDate="ngModel"
-                                   [readonly]="!isEditable" required class="form-control" />
+                                   [readonly]="!isEditable" required class="form-control"
+                                   (blur)="onFieldBlur('registrationDate', 'vehicle-information')" />
                               <div *ngIf="registrationDate.invalid && (registrationDate.touched || submitted)"
                                    class="validation-error">
                                    <small *ngIf="registrationDate.errors?.['required']">Registration date is
@@ -174,7 +180,8 @@
                               <label for="vehicleMake">Make</label>
                               <input type="text" id="vehicleMake" name="vehicleMake"
                                    [(ngModel)]="vehicleDetails.vehicleMake" #vehicleMake="ngModel"
-                                   [readonly]="!isEditable" required class="form-control" placeholder="e.g., Toyota" />
+                                   [readonly]="!isEditable" required class="form-control" placeholder="e.g., Toyota"
+                                   (blur)="onFieldBlur('vehicleMake', 'vehicle-information')" />
                               <div *ngIf="vehicleMake.invalid && (vehicleMake.touched || submitted)"
                                    class="validation-error">
                                    <small *ngIf="vehicleMake.errors?.['required']">Make is required</small>
@@ -187,7 +194,8 @@
                               <label for="vehicleModel">Model</label>
                               <input type="text" id="vehicleModel" name="vehicleModel"
                                    [(ngModel)]="vehicleDetails.vehicleModel" #vehicleModel="ngModel"
-                                   [readonly]="!isEditable" required class="form-control" placeholder="e.g., Camry" />
+                                   [readonly]="!isEditable" required class="form-control" placeholder="e.g., Camry"
+                                   (blur)="onFieldBlur('vehicleModel', 'vehicle-information')" />
                               <div *ngIf="vehicleModel.invalid && (vehicleModel.touched || submitted)"
                                    class="validation-error">
                                    <small *ngIf="vehicleModel.errors?.['required']">Model is required</small>
@@ -200,7 +208,8 @@
                               <label for="yearOfManufacture">Year</label>
                               <input type="number" id="yearOfManufacture" name="yearOfManufacture"
                                    [(ngModel)]="vehicleDetails.yearOfManufacture" #yearOfManufacture="ngModel"
-                                   [readonly]="!isEditable" required class="form-control" placeholder="e.g., 2018" />
+                                   [readonly]="!isEditable" required class="form-control" placeholder="e.g., 2018"
+                                   (blur)="onFieldBlur('yearOfManufacture', 'vehicle-information')" />
                               <div *ngIf="yearOfManufacture.invalid && (yearOfManufacture.touched || submitted)"
                                    class="validation-error">
                                    <small *ngIf="yearOfManufacture.errors?.['required']">Year is required</small>

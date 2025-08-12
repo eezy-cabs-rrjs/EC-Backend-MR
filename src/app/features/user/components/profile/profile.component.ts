@@ -93,7 +93,7 @@ export class ProfileComponent {
   submitEdit() {
     if (!this.validateForm()) return;
 
-    const userId = this.getUserIdFromLocalStorage();
+    const userId = this.getUserIdFromSessionStorage();
     if (!userId) {
       this.toastr.error('User ID not found. Please log in again.');
       return;
@@ -157,9 +157,9 @@ export class ProfileComponent {
     this.showPopup = false;
   }
 
-  private getUserIdFromLocalStorage(): string | null {
+  private getUserIdFromSessionStorage(): string | null {
     if (isPlatformBrowser(this.platformId)) {
-      const userString = localStorage.getItem('user');
+      const userString = sessionStorage.getItem('user');
       if (userString) {
         try {
           const userObj = JSON.parse(userString);
@@ -175,7 +175,7 @@ export class ProfileComponent {
 
   private loadUserProfile(): void {
     if (isPlatformBrowser(this.platformId)) {
-      const userString = localStorage.getItem('user');
+      const userString = sessionStorage.getItem('user');
       if (userString) {
         try {
           const userObj = JSON.parse(userString);
@@ -217,7 +217,7 @@ export class ProfileComponent {
   onFileChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      const userId = this.getUserIdFromLocalStorage();
+      const userId = this.getUserIdFromSessionStorage();
       if (userId) {
         const formData = new FormData();
         formData.append('file', file);

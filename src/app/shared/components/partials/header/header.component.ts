@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '@features/auth/services/auth.service';
+import { LoginService } from '@features/auth/services/login.service';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService,
+    private authService: LoginService,
     private toastr: ToastrService
   ) { }
 
@@ -33,9 +33,9 @@ export class HeaderComponent implements OnInit {
   }
 
   isUserLoggedIn(): boolean {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const authToken = localStorage.getItem('authToken');
-      const user = localStorage.getItem('user');
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      const authToken = sessionStorage.getItem('authToken');
+      const user = sessionStorage.getItem('user');
 
       if (authToken && user) {
         const parsedUser = JSON.parse(user);
@@ -46,12 +46,20 @@ export class HeaderComponent implements OnInit {
     return false;
   }
 
-  Logout() {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('user');
+  Logout(lgAllDevice : boolean = false) {
+    const userId = JSON.parse(sessionStorage.getItem('user') || '{}').userId;
+    const sessionId = JSON.parse(sessionStorage.getItem('user') || '{}').sessionId || '';
+    const logoutAllDevices = lgAllDevice; 
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      sessionStorage.removeItem('authToken');
+      sessionStorage.removeItem('user');
     }
-    this.authService.UserLogout().subscribe({
+    const data = {
+      userId,
+      sessionId,
+      logoutAllDevices
+    }
+    this.authService.UserLogout(data).subscribe({
       next: (response) => {
         this.toastr.success('Logout Successful!', 'Success');
         this.router.navigate(['/user']); 

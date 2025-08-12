@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '@features/auth/services/auth.service';
+import { LoginService } from '@features/auth/services/login.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -24,7 +24,7 @@ export class HeaderComponent {
 
   constructor(
     private router: Router,
-    private authService: AuthService,
+    private authService: LoginService,
     private toastr: ToastrService    
   ){}
 
@@ -32,12 +32,20 @@ export class HeaderComponent {
     this.menuOpen = !this.menuOpen;
   }
 
-  Logout() {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('user');
+  Logout(lgAllDevice : boolean = false) {
+    const userId = JSON.parse(sessionStorage.getItem('user') || '{}').userId;
+    const sessionId = JSON.parse(sessionStorage.getItem('user') || '{}').sessionId || '';
+    const logoutAllDevices = lgAllDevice; 
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      sessionStorage.removeItem('authToken');
+      sessionStorage.removeItem('user');
     }
-    this.authService.UserLogout().subscribe({
+    const data = {
+      userId,
+      sessionId,
+      logoutAllDevices
+    }
+    this.authService.UserLogout(data).subscribe({
       next: (response) => {
         this.toastr.success('Logout Successful!', 'Success');
         this.router.navigate(['/user']);
