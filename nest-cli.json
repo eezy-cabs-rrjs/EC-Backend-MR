@@ -73,6 +73,15 @@
         "tsConfigPath": "apps/navigation/tsconfig.app.json"
       }
     },
+    "notifications": {
+      "type": "application",
+      "root": "apps/notifications",
+      "entryFile": "main",
+      "sourceRoot": "apps/notifications/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/notifications/tsconfig.app.json"
+      }
+    },
     "payment": {
       "type": "application",
       "root": "apps/payment",
@@ -82,13 +91,31 @@
         "tsConfigPath": "apps/payment/tsconfig.app.json"
       }
     },
-    "shared": {
+    "shared-auth": {
       "type": "library",
-      "root": "libs/shared",
+      "root": "libs/shared-auth",
       "entryFile": "index",
-      "sourceRoot": "libs/shared/src",
+      "sourceRoot": "libs/shared-auth/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/shared/tsconfig.lib.json"
+        "tsConfigPath": "libs/shared-auth/tsconfig.lib.json"
+      }
+    },
+    "shared-common": {
+      "type": "library",
+      "root": "libs/shared-common",
+      "entryFile": "index",
+      "sourceRoot": "libs/shared-common/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/shared-common/tsconfig.lib.json"
+      }
+    },
+    "shared-payment": {
+      "type": "library",
+      "root": "libs/shared-payment",
+      "entryFile": "index",
+      "sourceRoot": "libs/shared-payment/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/shared-payment/tsconfig.lib.json"
       }
     },
     "users": {

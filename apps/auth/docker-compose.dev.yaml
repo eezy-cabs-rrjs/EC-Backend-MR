@@ -1,0 +1,22 @@
+version: "3.8"
+
+networks:
+  internal_net:
+    external: true
+
+services:
+  auth:
+    build:
+      context: ../../
+      dockerfile: apps/auth/Dockerfile
+      target: development
+    volumes:
+      - ./apps/auth:/app/apps/auth
+      - ./libs/shared-auth:/app/libs/shared-auth
+      - ./libs/shared-common:/app/libs/shared-common
+    env_file:
+      - .env.dev
+    ports:
+      - "50001:3000" 
+    networks:
+      - internal_net

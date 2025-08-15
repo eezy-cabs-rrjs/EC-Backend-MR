@@ -1,0 +1,24 @@
+version: "3.8"
+
+networks:
+  internal_net:
+    external: true
+  public_net:
+    external: true
+
+services:
+  navigation:
+    build:
+      context: ../../
+      dockerfile: apps/navigation/Dockerfile
+      target: development
+    volumes:
+      - ./apps/navigation:/app/apps/navigation
+      - ./libs/shared-common:/app/libs/shared-common
+    env_file:
+      - .env.dev
+    ports:
+      - "50005:3000" 
+    networks:
+      - internal_net
+      - public_net
