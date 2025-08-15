@@ -18,11 +18,23 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "shared/shared": [
-        "libs/shared/src"
+      "@app/shared-auth": [
+        "libs/shared-auth/src"
       ],
-      "shared/shared/*": [
-        "libs/shared/src/*"
+      "@app/shared-auth/*": [
+        "libs/shared-auth/src/*"
+      ],
+      "@app/shared-common": [
+        "libs/shared-common/src"
+      ],
+      "@app/shared-common/*": [
+        "libs/shared-common/src/*"
+      ],
+      "@app/shared-payment": [
+        "libs/shared-payment/src"
+      ],
+      "@app/shared-payment/*": [
+        "libs/shared-payment/src/*"
       ]
     }
   }

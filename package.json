@@ -1,10 +1,10 @@
 {
-  "name": "api-gateway",
+  "name": "eezy-cabs-v2",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "rishi-rj-s",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
@@ -19,6 +19,7 @@
     "test:e2e": "jest --config ./apps/api-gateway/test/jest-e2e.json"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.13.4",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
@@ -70,7 +71,9 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^shared/shared(|/.*)$": "<rootDir>/libs/shared/src/$1"
+      "^@app/shared-auth(|/.*)$": "<rootDir>/libs/shared-auth/src/$1",
+      "^@app/shared-common(|/.*)$": "<rootDir>/libs/shared-common/src/$1",
+      "^@app/shared-payment(|/.*)$": "<rootDir>/libs/shared-payment/src/$1"
     }
   }
 }

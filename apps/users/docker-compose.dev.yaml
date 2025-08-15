@@ -1,0 +1,21 @@
+version: "3.8"
+
+networks:
+  internal_net:
+    external: true
+
+services:
+  users:
+    build:
+      context: ../../
+      dockerfile: apps/users/Dockerfile
+      target: development
+    volumes:
+      - ./apps/users:/app/apps/users
+      - ./libs/shared-common:/app/libs/shared-common
+    env_file:
+      - .env.dev
+    ports:
+      - "50008:3000" 
+    networks:
+      - internal_net

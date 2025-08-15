@@ -1,0 +1,21 @@
+version: "3.8"
+
+networks:
+  internal_net:
+    external: true
+
+services:
+  verification:
+    build:
+      context: ../../
+      dockerfile: apps/verification/Dockerfile
+      target: development
+    volumes:
+      - ./apps/verification:/app/apps/verification
+      - ./libs/shared-common:/app/libs/shared-common
+    env_file:
+      - .env.dev
+    ports:
+      - "50009:3000" 
+    networks:
+      - internal_net

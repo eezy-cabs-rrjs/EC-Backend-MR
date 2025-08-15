@@ -1,0 +1,21 @@
+version: "3.8"
+
+networks:
+  internal_net:
+    external: true 
+
+services:
+  analytics:
+    build:
+      context: ../../
+      dockerfile: apps/analytics/Dockerfile
+      target: development
+    volumes:
+      - ./apps/analytics:/app/apps/analytics
+      - ./libs/shared-common:/app/libs/shared-common
+    env_file:
+      - .env.dev
+    ports:
+      - "50000:3000"
+    networks:
+      - internal_net

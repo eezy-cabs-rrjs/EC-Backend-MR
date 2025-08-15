@@ -1,0 +1,24 @@
+version: "3.8"
+
+networks:
+  internal_net:
+    external: true
+  public_net:
+    external: true
+
+services:
+  notifications:
+    build:
+      context: ../../
+      dockerfile: apps/notifications/Dockerfile
+      target: development
+    volumes:
+      - ./apps/notifications:/app/apps/notifications
+      - ./libs/shared-common:/app/libs/shared-common
+    env_file:
+      - .env.dev
+    ports:
+      - "50006:3000" 
+    networks:
+      - internal_net
+      - public_net
