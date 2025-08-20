@@ -9,9 +9,9 @@
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev": "cross-env NODE_ENV=dev nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/apps/api-gateway/main",
+    "start:prod": "cross-env NODE_ENV=prod node dist/apps/api-gateway/main",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -31,6 +31,7 @@
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
+    "@grpc/proto-loader": "^0.8.0",
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
@@ -40,6 +41,7 @@
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.7",
     "@types/supertest": "^6.0.2",
+    "cross-env": "^10.0.0",
     "globals": "^16.0.0",
     "jest": "^29.7.0",
     "source-map-support": "^0.5.21",
@@ -67,13 +69,7 @@
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
     "roots": [
-      "<rootDir>/apps/",
-      "<rootDir>/libs/"
-    ],
-    "moduleNameMapper": {
-      "^@app/shared-auth(|/.*)$": "<rootDir>/libs/shared-auth/src/$1",
-      "^@app/shared-common(|/.*)$": "<rootDir>/libs/shared-common/src/$1",
-      "^@app/shared-payment(|/.*)$": "<rootDir>/libs/shared-payment/src/$1"
-    }
+      "<rootDir>/apps/"
+    ]
   }
 }

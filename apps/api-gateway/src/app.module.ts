@@ -5,6 +5,8 @@ import { BookingModule } from './booking/booking.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { PaymentModule } from './payment/payment.module';
 import { UserModule } from './user/user.module';
+import { ConfigModule } from '@nestjs/config';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -13,7 +15,11 @@ import { UserModule } from './user/user.module';
     BookingModule,
     UserModule,
     AnalyticsModule,
-    PaymentModule
+    PaymentModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: join(process.cwd(), 'apps', 'api-gateway', `.env.${process.env.NODE_ENV}`),
+    }),
   ],
   controllers: [],
   providers: [],

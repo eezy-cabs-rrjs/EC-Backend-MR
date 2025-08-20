@@ -7,7 +7,6 @@ RUN npm install -g pnpm
 
 # Pass service name and libs as build args
 ARG SERVICE
-ARG LIBS=""
 
 # Copy only root package files for caching
 COPY package.json pnpm-lock.yaml ./
@@ -17,14 +16,6 @@ RUN pnpm install --frozen-lockfile
 
 # Copy selected service
 COPY apps/${SERVICE} ./apps/${SERVICE}
-
-# Copy selected libs
-RUN mkdir -p libs
-# We'll copy libs one-by-one to avoid unnecessary files
-COPY libs ./libs
-RUN if [ -n "${LIBS}" ]; then \
-      find ./libs -mindepth 1 -maxdepth 1 -type d ! -name "$(echo ${LIBS} | tr ' ' '\n' | paste -sd '|' -)" -exec rm -rf {} +; \
-    fi
 
 # Copy shared config files
 COPY nest-cli.json tsconfig*.json ./

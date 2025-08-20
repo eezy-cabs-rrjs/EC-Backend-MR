@@ -4,7 +4,7 @@
   "sourceRoot": "apps/api-gateway/src",
   "compilerOptions": {
     "deleteOutDir": true,
-    "webpack": true,
+    "webpack": false,
     "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
   },
   "monorepo": true,
@@ -89,33 +89,6 @@
       "sourceRoot": "apps/payment/src",
       "compilerOptions": {
         "tsConfigPath": "apps/payment/tsconfig.app.json"
-      }
-    },
-    "shared-auth": {
-      "type": "library",
-      "root": "libs/shared-auth",
-      "entryFile": "index",
-      "sourceRoot": "libs/shared-auth/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/shared-auth/tsconfig.lib.json"
-      }
-    },
-    "shared-common": {
-      "type": "library",
-      "root": "libs/shared-common",
-      "entryFile": "index",
-      "sourceRoot": "libs/shared-common/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/shared-common/tsconfig.lib.json"
-      }
-    },
-    "shared-payment": {
-      "type": "library",
-      "root": "libs/shared-payment",
-      "entryFile": "index",
-      "sourceRoot": "libs/shared-payment/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/shared-payment/tsconfig.lib.json"
       }
     },
     "users": {
