@@ -8,7 +8,7 @@
     "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
   },
   "monorepo": true,
-  "root": "apps/api-gateway",
+  "root": ".",
   "projects": {
     "analytics": {
       "type": "application",
@@ -25,7 +25,25 @@
       "entryFile": "main",
       "sourceRoot": "apps/api-gateway/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
+        "tsConfigPath": "apps/api-gateway/tsconfig.app.json",
+        "assets": [
+          { "include": "../auth/src/proto/auth.proto", "outDir": "proto" },
+          { "include": "../users/src/proto/users.proto", "outDir": "proto" },
+          {
+            "include": "../payment/src/proto/payment.proto",
+            "outDir": "proto"
+          },
+          {
+            "include": "../booking/src/proto/booking.proto",
+            "outDir": "proto"
+          },
+          { "include": "../chat/src/proto/chat.proto", "outDir": "proto" },
+          {
+            "include": "../verification/src/proto/verification.proto",
+            "outDir": "proto"
+          },
+          { "include": "../drivers/src/proto/drivers.proto", "outDir": "proto" }
+        ]
       }
     },
     "auth": {
@@ -34,7 +52,13 @@
       "entryFile": "main",
       "sourceRoot": "apps/auth/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/auth/tsconfig.app.json"
+        "tsConfigPath": "apps/auth/tsconfig.app.json",
+        "assets": [
+          {
+            "include": "./proto/auth.proto",
+            "outDir": "proto"
+          }
+        ]
       }
     },
     "booking": {
@@ -43,7 +67,13 @@
       "entryFile": "main",
       "sourceRoot": "apps/booking/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/booking/tsconfig.app.json"
+        "tsConfigPath": "apps/booking/tsconfig.app.json",
+        "assets": [
+          {
+            "include": "./proto/booking.proto",
+            "outDir": "proto"
+          }
+        ]
       }
     },
     "chat": {
@@ -52,7 +82,13 @@
       "entryFile": "main",
       "sourceRoot": "apps/chat/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/chat/tsconfig.app.json"
+        "tsConfigPath": "apps/chat/tsconfig.app.json",
+        "assets": [
+          {
+            "include": "./proto/chat.proto",
+            "outDir": "proto"
+          }
+        ]
       }
     },
     "drivers": {
@@ -61,7 +97,13 @@
       "entryFile": "main",
       "sourceRoot": "apps/drivers/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/drivers/tsconfig.app.json"
+        "tsConfigPath": "apps/drivers/tsconfig.app.json",
+        "assets": [
+          {
+            "include": "./proto/drivers.proto",
+            "outDir": "proto"
+          }
+        ]
       }
     },
     "navigation": {
@@ -88,7 +130,13 @@
       "entryFile": "main",
       "sourceRoot": "apps/payment/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/payment/tsconfig.app.json"
+        "tsConfigPath": "apps/payment/tsconfig.app.json",
+        "assets": [
+          {
+            "include": "./proto/payment.proto",
+            "outDir": "proto"
+          }
+        ]
       }
     },
     "users": {
@@ -97,7 +145,13 @@
       "entryFile": "main",
       "sourceRoot": "apps/users/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/users/tsconfig.app.json"
+        "tsConfigPath": "apps/users/tsconfig.app.json",
+        "assets": [
+          {
+            "include": "./proto/users.proto",
+            "outDir": "proto"
+          }
+        ]
       }
     },
     "verification": {
@@ -106,7 +160,13 @@
       "entryFile": "main",
       "sourceRoot": "apps/verification/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/verification/tsconfig.app.json"
+        "tsConfigPath": "apps/verification/tsconfig.app.json",
+        "assets": [
+          {
+            "include": "./proto/verification.proto",
+            "outDir": "proto"
+          }
+        ]
       }
     }
   }

@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
-import { DriverModule } from './driver/driver.module';
-import { BookingModule } from './booking/booking.module';
-import { AnalyticsModule } from './analytics/analytics.module';
-import { PaymentModule } from './payment/payment.module';
-import { UserModule } from './user/user.module';
+import { PaymentModule } from './modules/payment/payment.module';
 import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
+import { AnalyticsModule } from 'apps/analytics/src/analytics.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { BookingModule } from './modules/booking/booking.module';
+import { DriverModule } from './modules/driver/driver.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
