@@ -1,0 +1,21 @@
+# build outputs
+dist/
+
+# GitHub workflows
+.github/
+
+# Environment files anywhere inside apps
+apps/**/.env.*
+
+# Dependencies
+node_modules/
+
+# PM2 / ecosystem config
+ecosystem.config.js
+
+# Custom commands
+commands-guide
+
+# Vscode
+
+.vscode

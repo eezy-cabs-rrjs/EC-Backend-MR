@@ -27,22 +27,7 @@
       "compilerOptions": {
         "tsConfigPath": "apps/api-gateway/tsconfig.app.json",
         "assets": [
-          { "include": "../auth/src/proto/auth.proto", "outDir": "proto" },
-          { "include": "../users/src/proto/users.proto", "outDir": "proto" },
-          {
-            "include": "../payment/src/proto/payment.proto",
-            "outDir": "proto"
-          },
-          {
-            "include": "../booking/src/proto/booking.proto",
-            "outDir": "proto"
-          },
-          { "include": "../chat/src/proto/chat.proto", "outDir": "proto" },
-          {
-            "include": "../verification/src/proto/verification.proto",
-            "outDir": "proto"
-          },
-          { "include": "../drivers/src/proto/drivers.proto", "outDir": "proto" }
+          { "include": "proto/*.proto", "outDir": "dist/apps/api-gateway" }
         ]
       }
     },
@@ -55,8 +40,8 @@
         "tsConfigPath": "apps/auth/tsconfig.app.json",
         "assets": [
           {
-            "include": "./proto/auth.proto",
-            "outDir": "proto"
+            "include": "proto/auth.proto",
+            "outDir": "dist/apps/auth"
           }
         ]
       }
