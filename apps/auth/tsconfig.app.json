@@ -3,7 +3,8 @@
   "compilerOptions": {
     "declaration": false,
     "outDir": "../../dist/apps/auth",
+    "rootDir": "src"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/**/*.proto"],
   "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
 }
