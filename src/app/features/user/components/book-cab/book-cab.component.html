@@ -3,63 +3,42 @@
 <div class="booking-container">
   <div class="booking-content">
     <div class="booking-map">
-      <iframe [src]="mapUrl" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div id="map" style="height:500px; width:100%"></div>
     </div>
 
     <div class="booking-form">
       <div class="form-header">
         <h2><i class="fas fa-taxi"></i> Book Your Ride</h2>
-        <p>Enter your details to get a ride instantly</p>
+        <p>Choose pickup and destination (type or drop pins)</p>
       </div>
 
       <form (ngSubmit)="bookRide()">
         <div class="form-group">
-          <label for="departure">
-            <i class="fas fa-map-marker-alt"></i> Pickup Location
-          </label>
-          <input type="text" id="departure" name="departure" [(ngModel)]="departure" placeholder="Where are you now?"
-            required>
+          <label for="departure"><i class="fas fa-map-marker-alt"></i> Pickup Location</label>
+          <input type="text" id="departure" [(ngModel)]="departure" name="departure" autocomplete="off" required />
         </div>
 
         <div class="form-group">
-          <label for="destination">
-            <i class="fas fa-flag-checkered"></i> Destination
-          </label>
-          <input type="text" id="destination" name="destination" [(ngModel)]="destination" placeholder="Where to go?"
-            required>
+          <label for="destination"><i class="fas fa-flag-checkered"></i> Destination</label>
+          <input type="text" id="destination" [(ngModel)]="destination" name="destination" autocomplete="off" required />
         </div>
 
-        <button type="button" (click)="updateMapUrl()" class="route-btn">
-          <i class="fas fa-route"></i> Show Route on Map
+        <button type="button" (click)="showRoute()" class="route-btn">
+          <i class="fas fa-route"></i> Show Route
         </button>
-        <div class="route-note">Click to visualize your route before booking</div>
-
-        <div class="form-group">
-          <label for="riderName">
-            <i class="fas fa-user"></i> Your Name
-          </label>
-          <input type="text" id="riderName" name="riderName" [(ngModel)]="riderName" placeholder="Enter your full name"
-            required>
-        </div>
-
-        <div class="form-group">
-          <label for="contact">
-            <i class="fas fa-phone"></i> Contact Number
-          </label>
-          <input type="tel" id="contact" name="contact" [(ngModel)]="contact" placeholder="Enter mobile number"
-            required>
-        </div>
 
         <button type="submit" class="submit-btn">
           <i class="fas fa-car"></i> Book Ride Now
         </button>
       </form>
-    </div>
-  </div>
 
-  <div *ngIf="showDriversModal">
-    <app-avail-drivers *ngIf="showDriversModal" [drivers]="availableDrivers" (driverSelected)="onDriverSelected($event)"
-      (closeModal)="closeModal($event)">
-    </app-avail-drivers>
+      <div *ngIf="rideInProgress">
+        <button *ngIf="!rideStarted" class="start-btn" (click)="startRide()">🚕 Start Ride</button>
+        <button *ngIf="rideStarted" class="ongoing-btn" disabled>✅ Ride Ongoing...</button>
+        <button class="cancel-btn" (click)="cancelRide()">❌ Cancel Ride</button>
+      </div>
+
+      <button class="reset-btn" (click)="resetMarkers()">🔄 Reset Markers</button>
+    </div>
   </div>
 </div>

@@ -1,201 +1,218 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { GoogleMapsModule } from '@angular/google-maps';
-import { Loader } from '@googlemaps/js-api-loader';
-import { BookingService } from '../../services/booking.service';
-import { AvailDriversComponent } from './avail-drivers/avail-drivers.component';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { FooterComponent } from '@shared/components/partials/footer/footer.component';
+import { Loader } from '@googlemaps/js-api-loader';
 import { HeaderComponent } from '@shared/components/partials/header/header.component';
 import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-book-cab',
   standalone: true,
-  imports: [
-    FormsModule,
-    GoogleMapsModule,
-    HeaderComponent,
-    AvailDriversComponent,
-    CommonModule
-  ],
+  imports: [FormsModule, CommonModule, HeaderComponent],
   templateUrl: './book-cab.component.html',
-  styleUrl: './book-cab.component.css'
+  styleUrl: './book-cab.component.css',
 })
-
-
 export class BookCabComponent implements OnInit {
-  departure: string = '';
-  destination: string = '';
-  riderName: string = '';
-  contact: string = '';
-  mapUrl!: SafeResourceUrl;
-  availableDrivers: any[] = [];
-  selectedDriver: any;
-  showDriversModal: boolean = false;
+  departure = '';
+  destination = '';
+  mapCenter: google.maps.LatLngLiteral = { lat: 28.6139, lng: 77.209 };
+  zoom = 14;
 
-  private apiKey = environment.APIKEY;
-  private gmapUrl = environment.GMAP_URL;
+  map!: google.maps.Map;
+  pickupMarker: google.maps.Marker | null = null;
+  destinationMarker: google.maps.Marker | null = null;
+  taxiMarker: google.maps.Marker | null = null;
+  routePath: google.maps.DirectionsRenderer | null = null;
 
-  constructor(
-    private sanitizer: DomSanitizer,
-    private bookingService: BookingService,
-    private router: Router,
-    private toastr: ToastrService
-  ) {
-    this.setDefaultMap();
-  }
+  rideInProgress = false;
+  rideStarted = false;
+  taxiPositionIndex = 0;
+  routeCoordinates: google.maps.LatLngLiteral[] = [];
 
-  ngOnInit(): void {
-    if (typeof window !== 'undefined' && 'geolocation' in window.navigator) {
-      const userString = sessionStorage.getItem('user');
-      let user: { role?: string } | null = null;
+  directionsService!: google.maps.DirectionsService;
+  geocoder!: google.maps.Geocoder;
 
-      if (userString) {
-        try {
-          user = JSON.parse(userString);
-        } catch (error) {
-          console.error('Error parsing user from sessionStorage:', error);
-          this.toastr.error('Error loading your profile data', 'Error');
-        }
-      }
-
-      if (user && user.role) {
-        this.bookingService.checkRide(user.role).subscribe({
-          next: (response) => {
-            if (response && response.ongoing) {
-              this.router.navigate(['/user/riding']);
-              this.toastr.info('You already have an ongoing ride', 'Ride in Progress');
-            } else {
-              this.getCurrentLocation();
-            }
-          },
-          error: (error) => {
-            console.error('Error checking ride status:', error);
-            this.toastr.error('Error checking your ride status', 'Error');
-            this.getCurrentLocation();
-          }
-        });
-      } else {
-        console.error('User role is not available');
-        this.toastr.warning('Please login to access all features', 'Notice');
-        this.getCurrentLocation();
-      }
-    }
-  }
-
-  private setDefaultMap(): void {
-    const defaultUrl = `${this.gmapUrl}/v1/place?key=${this.apiKey}&q=Your+Location`;
-    this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(defaultUrl);
-  }
-
-  getCurrentLocation(): void {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const lat = position.coords.latitude;
-          const lng = position.coords.longitude;
-          const mapUrl = `${this.gmapUrl}/v1/view?key=${this.apiKey}&center=${lat},${lng}&zoom=15`;
-          this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(mapUrl);
-        },
-        (error) => {
-          console.error('Error getting location', error);
-          this.toastr.warning('Could not get your current location. Using default map view.', 'Location Service');
-          this.setDefaultMap();
-        }
-      );
-    } else {
-      this.toastr.warning('Geolocation is not supported by your browser', 'Location Service');
-      this.setDefaultMap();
-    }
-  }
-
-  updateMapUrl(): void {
-    if (!this.departure || !this.destination) {
-      this.toastr.error('Please enter both Departure and Destination to show route', 'Missing Information');
-      return;
-    }
-
-    const mapUrl = `${this.gmapUrl}/v1/directions?key=${this.apiKey}`
-      + `&origin=${encodeURIComponent(this.departure)}`
-      + `&destination=${encodeURIComponent(this.destination)}`
-      + '&mode=driving';
-
-    this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(mapUrl);
-    this.toastr.success('Route displayed on map', 'Success');
-  }
-
-  async fetchCoordinates(address: string): Promise<{ lat: number; lng: number }> {
+  async ngOnInit(): Promise<void> {
     const loader = new Loader({
-      apiKey: this.apiKey,
+      apiKey: environment.GMAPS_API_KEY,
       version: 'weekly',
+      libraries: ['places'],
     });
 
-    const google = await loader.load();
+    await loader.importLibrary('maps');
 
-    return new Promise((resolve, reject) => {
-      const geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ address }, (results, status) => {
-        if (status === 'OK' && results && results.length > 0) {
-          const location = results[0].geometry.location;
-          resolve({ lat: location.lat(), lng: location.lng() });
-        } else {
-          reject(`Geocoding failed: ${status}`);
-        }
+    this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+      center: this.mapCenter,
+      zoom: this.zoom,
+      mapTypeId: 'roadmap',
+      tilt: 0,
+      streetViewControl: false,
+      gestureHandling: 'greedy',
+    });
+
+    this.directionsService = new google.maps.DirectionsService();
+    this.geocoder = new google.maps.Geocoder();
+
+    this.map.addListener('click', (e: google.maps.MapMouseEvent) => this.handleMapClick(e));
+
+    this.restoreRideState();
+  }
+
+  private handleMapClick(event: google.maps.MapMouseEvent): void {
+    if (!event.latLng) return;
+
+    if (!this.pickupMarker) {
+      this.pickupMarker = new google.maps.Marker({
+        position: event.latLng,
+        map: this.map,
+        label: 'P',
       });
+      this.reverseGeocode(event.latLng, (addr) => (this.departure = addr));
+    } else if (!this.destinationMarker) {
+      this.destinationMarker = new google.maps.Marker({
+        position: event.latLng,
+        map: this.map,
+        label: 'D',
+      });
+      this.reverseGeocode(event.latLng, (addr) => (this.destination = addr));
+      this.showRoute();
+    }
+  }
+
+  private reverseGeocode(latLng: google.maps.LatLng, callback: (address: string) => void): void {
+    this.geocoder.geocode({ location: latLng }, (results, status) => {
+      if (status === 'OK' && results && results[0]) {
+        callback(results[0].formatted_address);
+      }
     });
   }
 
-  async bookRide(): Promise<void> {
-    if (!this.departure || !this.destination || !this.riderName || !this.contact) {
-      this.toastr.error('Please fill in all fields before booking the ride.', 'Form Incomplete');
-      return;
-    }
+  async showRoute(): Promise<void> {
+    if (!this.departure || !this.destination) return;
 
-    try {
-      const departureCoords = await this.fetchCoordinates(this.departure);
-      const destinationCoords = await this.fetchCoordinates(this.destination);
+    this.directionsService.route(
+      {
+        origin: this.departure,
+        destination: this.destination,
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+      (result, status) => {
+        if (status === 'OK' && result) {
+          if (this.routePath) this.routePath.setMap(null);
 
-      this.bookingService.getAvailableDrivers(departureCoords).subscribe({
-        next: (drivers) => {
-          this.availableDrivers = drivers;
-          if (drivers.length > 0) {
-            this.toastr.info(`${drivers.length} drivers available near you`, 'Drivers Found');
-          } else {
-            this.toastr.warning('No drivers available at the moment. Please try again later.', 'No Drivers');
-          }
-        },
-        error: (error) => {
-          console.error('Error fetching available drivers:', error);
-          this.toastr.error('Error finding available drivers. Please try again.', 'Error');
-          this.availableDrivers = [];
-        },
-        complete: () => {
-          console.log('Driver fetching completed.');
+          this.routePath = new google.maps.DirectionsRenderer({
+            map: this.map,
+            directions: result,
+            suppressMarkers: true,
+            polylineOptions: {
+              strokeColor: '#4285F4',
+              strokeOpacity: 0.8,
+              strokeWeight: 5,
+            },
+          });
+
+          this.routeCoordinates = result.routes[0].overview_path.map((p) => p.toJSON());
+          const leg = result.routes[0].legs[0];
+          console.log('Distance:', leg.distance?.text);
+          console.log('Duration:', leg.duration?.text);
         }
-      });
-      this.showDriversModal = true;
-    } catch (error) {
-      this.toastr.error('Failed to book ride. Please check your locations and try again.', 'Booking Error');
-      console.error(error);
-    }
+      }
+    );
   }
 
-  onDriverSelected(driver: any) {
-    this.selectedDriver = driver;
-    this.toastr.success(`You have selected ${driver.name}. Your ride is being prepared!`, 'Driver Selected');
-    this.showDriversModal = false;
+  bookRide(): void {
+    if (!this.departure || !this.destination) return;
+    this.rideInProgress = true;
+    this.saveRideState();
   }
 
-  closeModal($event : boolean): void {
-    this.showDriversModal = false;
-    if ($event) {
-      this.toastr.success('You can modify your booking details if needed', 'Booking Open');
-    } else {
-      this.toastr.info('Your booking has been cancelled or is not active', 'Booking Cancelled');
+  startRide(): void {
+    if (!this.routeCoordinates.length || this.rideStarted) return;
+
+    this.taxiMarker = new google.maps.Marker({
+      position: this.routeCoordinates[this.taxiPositionIndex],
+      label: '🚕',
+      map: this.map,
+    });
+
+    this.rideStarted = true;
+    this.animateTaxi();
+  }
+
+  cancelRide(): void {
+    this.rideInProgress = false;
+    this.rideStarted = false;
+    this.taxiPositionIndex = 0;
+
+    if (this.taxiMarker) {
+      this.taxiMarker.setMap(null);
+      this.taxiMarker = null;
     }
-}
+
+    this.saveRideState();
+  }
+
+  resetMarkers(): void {
+    if (this.pickupMarker) {
+      this.pickupMarker.setMap(null);
+      this.pickupMarker = null;
+    }
+    if (this.destinationMarker) {
+      this.destinationMarker.setMap(null);
+      this.destinationMarker = null;
+    }
+    if (this.routePath) {
+      this.routePath.setMap(null);
+      this.routePath = null;
+    }
+
+    this.departure = '';
+    this.destination = '';
+    this.routeCoordinates = [];
+    this.saveRideState();
+  }
+
+  private animateTaxi(): void {
+    if (!this.taxiMarker || this.taxiPositionIndex >= this.routeCoordinates.length) return;
+
+    setTimeout(() => {
+      this.taxiMarker!.setPosition(this.routeCoordinates[this.taxiPositionIndex]);
+      this.taxiPositionIndex++;
+      this.saveRideState();
+      this.animateTaxi();
+    }, 1000);
+  }
+
+  private saveRideState(): void {
+    localStorage.setItem(
+      'rideState',
+      JSON.stringify({
+        departure: this.departure,
+        destination: this.destination,
+        rideInProgress: this.rideInProgress,
+        rideStarted: this.rideStarted,
+        taxiPositionIndex: this.taxiPositionIndex,
+      })
+    );
+  }
+
+  private restoreRideState(): void {
+    const saved = localStorage.getItem('rideState');
+    if (saved) {
+      const state = JSON.parse(saved);
+      this.departure = state.departure;
+      this.destination = state.destination;
+      this.rideInProgress = state.rideInProgress;
+      this.rideStarted = state.rideStarted;
+      this.taxiPositionIndex = state.taxiPositionIndex;
+
+      if (this.rideInProgress) {
+        this.showRoute();
+      }
+
+      if (this.rideStarted && this.routeCoordinates.length) {
+        this.startRide();
+      }
+    }
+  }
 }

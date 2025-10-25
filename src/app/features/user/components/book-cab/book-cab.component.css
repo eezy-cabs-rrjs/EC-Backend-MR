@@ -33,6 +33,15 @@
   height: 600px;
 }
 
+/* Updated for Angular Google Maps component */
+.booking-map google-map {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: var(--border-radius);
+}
+
+/* Keep iframe styles for backward compatibility if needed */
 .booking-map iframe {
   width: 100%;
   height: 100%;
@@ -44,6 +53,7 @@
   background: white;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
+  padding: 30px;
 }
 
 .form-header {
@@ -108,26 +118,9 @@
 .form-group input::placeholder {
   color: #aaa;
 }
-.route-btn {
-  background-color: #4a6baf; /* Different color from submit button */
-  margin-bottom: 8px;
-}
 
-.route-note {
-  font-size: 0.8rem;
-  color: #666;
-  text-align: center;
-  margin-bottom: 20px;
-  font-style: italic;
-}
-
-.route-btn:hover {
-  background-color: #3a5a9f;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(74, 107, 175, 0.3);
-}
-
-.route-btn, .submit-btn {
+/* Base button styles */
+.route-btn, .submit-btn, .start-btn {
   width: 100%;
   padding: 14px;
   border-radius: var(--border-radius);
@@ -140,12 +133,14 @@
   justify-content: center;
   gap: 10px;
   margin: 10px 0;
+  border: none;
 }
 
+/* Route button styles */
 .route-btn {
   background-color: rgb(36, 34, 34);
   color: white;
-  border: none;
+  margin-bottom: 8px;
 }
 
 .route-btn:hover {
@@ -153,16 +148,39 @@
   transform: translateY(-2px);
 }
 
+/* Submit button styles */
 .submit-btn {
   background-color: var(--primary-color);
   color: var(--secondary-color);
-  border: none;
   margin-top: 20px;
 }
 
 .submit-btn:hover {
   background-color: #e68a00;
   transform: translateY(-2px);
+}
+
+/* Start ride button styles */
+.start-btn {
+  background-color: var(--accent-color);
+  color: white;
+  margin-top: 15px;
+  font-size: 1.1rem;
+}
+
+.start-btn:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+}
+
+/* Route note (keeping for backward compatibility) */
+.route-note {
+  font-size: 0.8rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 20px;
+  font-style: italic;
 }
 
 /* Responsive Styles */
@@ -192,5 +210,11 @@
   
   .form-header h2 {
     font-size: 1.5rem;
+  }
+  
+  /* Ensure buttons remain readable on mobile */
+  .route-btn, .submit-btn, .start-btn {
+    font-size: 0.95rem;
+    padding: 12px;
   }
 }
